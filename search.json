@@ -277,14 +277,14 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This project was completed as the final project for STAT 515: Applied Statistics & Visualization for Analytics at George Mason University, Fall 2024.\n\n\n\n\n\n\n\n\nNoteRutvij\n\n\n\nContributions:\n\nData preprocessing and cleaning\nResearch Question 1 analysis (Decision Tree, Random Forest, Logistic Regression with interactions)\nResearch Question 2 analysis (Weighted Logistic Regression, LASSO variable selection)\nReport writing and documentation\nProject coordination\n\n\n\n\n\n\n\n\n\nNoteSean Grieg\n\n\n\nContributions:\n\nExploratory Data Analysis\nChi-square tests and statistical testing\nResearch Question 3 analysis (Department-stratified models, VIF analysis)\nModel diagnostics and performance evaluation\nVisualization design"
+    "text": "This project was completed as the final project for STAT 515: Applied Statistics & Visualization for Analytics at George Mason University, Fall 2025.\n\n\n\n\n\n\n\n\nNoteRutvij\n\n\n\nContributions:\n\nData preprocessing and cleaning\nResearch Question 1 analysis (Decision Tree, Random Forest, Logistic Regression with interactions)\nResearch Question 2 analysis (Weighted Logistic Regression, LASSO variable selection)\nReport writing and documentation\nProject coordination\n\n\n\n\n\n\n\n\n\nNoteSean Grieg\n\n\n\nContributions:\n\nExploratory Data Analysis\nChi-square tests and statistical testing\nResearch Question 3 analysis (Department-stratified models, VIF analysis)\nModel diagnostics and performance evaluation\nVisualization design"
   },
   {
     "objectID": "about.html#project-team",
     "href": "about.html#project-team",
     "title": "About",
     "section": "",
-    "text": "This project was completed as the final project for STAT 515: Applied Statistics & Visualization for Analytics at George Mason University, Fall 2024.\n\n\n\n\n\n\n\n\nNoteRutvij\n\n\n\nContributions:\n\nData preprocessing and cleaning\nResearch Question 1 analysis (Decision Tree, Random Forest, Logistic Regression with interactions)\nResearch Question 2 analysis (Weighted Logistic Regression, LASSO variable selection)\nReport writing and documentation\nProject coordination\n\n\n\n\n\n\n\n\n\nNoteSean Grieg\n\n\n\nContributions:\n\nExploratory Data Analysis\nChi-square tests and statistical testing\nResearch Question 3 analysis (Department-stratified models, VIF analysis)\nModel diagnostics and performance evaluation\nVisualization design"
+    "text": "This project was completed as the final project for STAT 515: Applied Statistics & Visualization for Analytics at George Mason University, Fall 2025.\n\n\n\n\n\n\n\n\nNoteRutvij\n\n\n\nContributions:\n\nData preprocessing and cleaning\nResearch Question 1 analysis (Decision Tree, Random Forest, Logistic Regression with interactions)\nResearch Question 2 analysis (Weighted Logistic Regression, LASSO variable selection)\nReport writing and documentation\nProject coordination\n\n\n\n\n\n\n\n\n\nNoteSean Grieg\n\n\n\nContributions:\n\nExploratory Data Analysis\nChi-square tests and statistical testing\nResearch Question 3 analysis (Department-stratified models, VIF analysis)\nModel diagnostics and performance evaluation\nVisualization design"
   },
   {
     "objectID": "about.html#project-overview",
@@ -312,7 +312,7 @@
     "href": "about.html#course-information",
     "title": "About",
     "section": "5 Course Information",
-    "text": "5 Course Information\n\nCourse: STAT 515 - Applied Statistics & Visualization for Analytics\nInstitution: George Mason University\nSemester: Fall 2024\nInstructor: Professor Dassanayake"
+    "text": "5 Course Information\n\nCourse: STAT 515 - Applied Statistics & Visualization for Analytics\nInstitution: George Mason University\nSemester: Fall 2025\nInstructor: Professor Dassanayake"
   },
   {
     "objectID": "about.html#repository",
@@ -333,7 +333,7 @@
     "href": "projectcode.html",
     "title": "Project Code",
     "section": "",
-    "text": "# =============================================================================\n# STAT 515 Final Project - IBM HR Employee Attrition Analysis\n# Team: Rutvij & Sean Greg\n# George Mason University | Fall 2024\n# =============================================================================\n\n# Load required libraries\nlibrary(readxl)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(tidyr)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(scales)\nlibrary(corrplot)\nlibrary(car)\nlibrary(caret)\nlibrary(rpart)\nlibrary(rpart.plot)\nlibrary(randomForest)\nlibrary(glmnet)\nlibrary(pROC)\nlibrary(gridExtra)\n\n# Set seed for reproducibility\nset.seed(515)"
+    "text": "# =============================================================================\n# STAT 515 Final Project - IBM HR Employee Attrition Analysis\n# Team: Rutvij & Sean Greg\n# George Mason University | Fall 2025\n# =============================================================================\n\n# Load required libraries\nlibrary(readxl)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(tidyr)\nlibrary(knitr)\nlibrary(kableExtra)\nlibrary(scales)\nlibrary(corrplot)\nlibrary(car)\nlibrary(caret)\nlibrary(rpart)\nlibrary(rpart.plot)\nlibrary(randomForest)\nlibrary(glmnet)\nlibrary(pROC)\nlibrary(gridExtra)\n\n# Set seed for reproducibility\nset.seed(515)"
   },
   {
     "objectID": "projectcode.html#decision-tree-model",
