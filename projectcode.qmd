@@ -1,0 +1,416 @@
+---
+title: "Project Code"
+subtitle: "Complete R Code for IBM HR Employee Attrition Analysis"
+author: "Rutvij & Sean Grieg"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 2
+    code-fold: false
+    code-summary: "Show Code"
+execute:
+  echo: true
+  warning: false
+  message: false
+  eval: false
+---
+
+# Setup and Libraries
+
+```{r}
+#| label: setup
+
+# =============================================================================
+# STAT 515 Final Project - IBM HR Employee Attrition Analysis
+# Team: Rutvij & Sean Greg
+# George Mason University | Fall 2024
+# =============================================================================
+
+# Load required libraries
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+library(scales)
+library(corrplot)
+library(car)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(glmnet)
+library(pROC)
+library(gridExtra)
+
+# Set seed for reproducibility
+set.seed(515)
+```
+
+# Data Loading and Preprocessing
+
+```{r}
+#| label: data-loading
+
+# Load the dataset - try multiple possible paths
+possible_paths <- c(
+  "data/HR_Data.xlsx",
+  "HR_Data.xlsx",
+  "./data/HR_Data.xlsx",
+  "./HR_Data.xlsx"
+)
+
+data_path <- NULL
+for (p in possible_paths) {
+  if (file.exists(p)) {
+    data_path <- p
+    break
+  }
+}
+
+if (is.null(data_path)) {
+  stop("HR_Data.xlsx not found. Please ensure it's in the project folder or 'data' subfolder.")
+}
+
+hr_data <- read_excel(data_path)
+
+# Examine structure
+glimpse(hr_data)
+dim(hr_data)
+
+# Create binary variables
+hr_data <- hr_data %>%
+  mutate(
+    Attrition_Binary = ifelse(Attrition == "Yes", 1, 0),
+    OverTime_Binary = ifelse(`Over Time` == "Yes", 1, 0)
+  )
+
+# Check class distribution
+table(hr_data$Attrition)
+prop.table(table(hr_data$Attrition)) * 100
+
+# Calculate class weights for imbalanced data
+n_total <- nrow(hr_data)
+n_pos <- sum(hr_data$Attrition_Binary)
+n_neg <- n_total - n_pos
+weight_pos <- n_total / (2 * n_pos)
+weight_neg <- n_total / (2 * n_neg)
+
+cat("Class Weights:\n")
+cat("  Class 0 (No):", weight_neg, "\n")
+cat("  Class 1 (Yes):", weight_pos, "\n")
+```
+
+# Exploratory Data Analysis
+
+```{r}
+#| label: eda
+
+# Attrition by categorical variables
+hr_data %>%
+  group_by(`Over Time`) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Attrition_Rate = mean(Attrition_Binary) * 100
+  )
+
+hr_data %>%
+  group_by(Department) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Attrition_Rate = mean(Attrition_Binary) * 100
+  )
+
+# Chi-square tests
+chi_overtime <- chisq.test(table(hr_data$`Over Time`, hr_data$Attrition))
+print(chi_overtime)
+
+chi_dept <- chisq.test(table(hr_data$Department, hr_data$Attrition))
+print(chi_dept)
+
+# T-tests for numeric variables
+t.test(hr_data$Age ~ hr_data$Attrition)
+t.test(hr_data$`Monthly Income` ~ hr_data$Attrition)
+t.test(hr_data$`Years At Company` ~ hr_data$Attrition)
+```
+
+# Research Question 1: Work-Life Imbalance Analysis
+
+## Decision Tree Model
+
+```{r}
+#| label: q1-decision-tree
+
+# Prepare data for Q1
+q1_data <- hr_data %>%
+  select(Attrition_Binary, OverTime_Binary, `Distance From Home`, 
+         `Work Life Balance`, `Years At Company`) %>%
+  rename(
+    DistanceFromHome = `Distance From Home`,
+    WorkLifeBalance = `Work Life Balance`,
+    YearsAtCompany = `Years At Company`
+  )
+
+# Train-test split
+set.seed(515)
+train_idx <- createDataPartition(q1_data$Attrition_Binary, p = 0.7, list = FALSE)
+train_data <- q1_data[train_idx, ]
+test_data <- q1_data[-train_idx, ]
+
+# Fit decision tree
+dt_model <- rpart(
+  Attrition_Binary ~ OverTime_Binary + DistanceFromHome + WorkLifeBalance + YearsAtCompany,
+  data = train_data,
+  method = "class",
+  parms = list(prior = c(0.5, 0.5)),
+  control = rpart.control(maxdepth = 4, minsplit = 50, cp = 0.01)
+)
+
+# Print summary
+printcp(dt_model)
+
+# Plot decision tree
+rpart.plot(dt_model, type = 4, extra = 104, fallen.leaves = TRUE,
+           main = "Decision Tree: Work-Life Factors Predicting Attrition")
+
+# Feature importance
+dt_importance <- dt_model$variable.importance / sum(dt_model$variable.importance)
+print(sort(dt_importance, decreasing = TRUE))
+
+# Predictions and evaluation
+pred_dt <- predict(dt_model, test_data, type = "class")
+pred_prob_dt <- predict(dt_model, test_data, type = "prob")[, 2]
+
+confusionMatrix(factor(pred_dt), factor(test_data$Attrition_Binary))
+
+roc_dt <- roc(test_data$Attrition_Binary, pred_prob_dt)
+cat("Decision Tree AUC:", auc(roc_dt), "\n")
+```
+
+## Logistic Regression with Interactions
+
+```{r}
+#| label: q1-logistic
+
+# Create interaction terms
+hr_data <- hr_data %>%
+  mutate(
+    OT_x_WLB = OverTime_Binary * `Work Life Balance`,
+    OT_x_Distance = OverTime_Binary * `Distance From Home`,
+    OT_x_YearsAtCompany = OverTime_Binary * `Years At Company`
+  )
+
+# Fit logistic regression with interactions
+logit_q1 <- glm(
+  Attrition_Binary ~ OverTime_Binary + `Distance From Home` + `Work Life Balance` + 
+    `Years At Company` + OT_x_WLB + OT_x_Distance + OT_x_YearsAtCompany,
+  data = hr_data,
+  family = binomial(link = "logit")
+)
+
+summary(logit_q1)
+
+# Odds ratios
+exp(coef(logit_q1))
+exp(confint(logit_q1))
+```
+
+## Random Forest Model
+
+```{r}
+#| label: q1-random-forest
+
+# Fit Random Forest
+rf_model <- randomForest(
+  factor(Attrition_Binary) ~ OverTime_Binary + DistanceFromHome + WorkLifeBalance + YearsAtCompany,
+  data = train_data,
+  ntree = 500,
+  mtry = 2,
+  classwt = c(1, 3),
+  importance = TRUE
+)
+
+print(rf_model)
+
+# Variable importance
+importance(rf_model)
+varImpPlot(rf_model)
+
+# Predictions
+pred_prob_rf <- predict(rf_model, test_data, type = "prob")[, 2]
+roc_rf <- roc(test_data$Attrition_Binary, pred_prob_rf)
+cat("Random Forest AUC:", auc(roc_rf), "\n")
+
+# ROC comparison
+plot(roc_dt, col = "blue", main = "ROC Curves - Q1 Models")
+plot(roc_rf, col = "red", add = TRUE)
+legend("bottomright", c("Decision Tree", "Random Forest"), col = c("blue", "red"), lwd = 2)
+```
+
+# Research Question 2: Career Stagnation Analysis
+
+## Weighted Logistic Regression
+
+```{r}
+#| label: q2-weighted-logit
+
+# Create weights
+weights <- ifelse(hr_data$Attrition_Binary == 1, weight_pos, weight_neg)
+
+# Fit weighted logistic regression
+logit_q2 <- glm(
+  Attrition_Binary ~ `Years Since Last Promotion` + `Years In Current Role` +
+    `Monthly Income` + `Percent Salary Hike` + `Job Level`,
+  data = hr_data,
+  family = binomial(),
+  weights = weights
+)
+
+summary(logit_q2)
+
+# Odds ratios
+exp(coef(logit_q2))
+exp(confint(logit_q2))
+```
+
+## LASSO Variable Selection
+
+```{r}
+#| label: q2-lasso
+
+# Prepare feature matrix
+lasso_vars <- c("Years Since Last Promotion", "Years In Current Role", "Monthly Income",
+                "Percent Salary Hike", "Job Level", "Age", "Total Working Years",
+                "Years At Company", "Years With Curr Manager", "Distance From Home",
+                "Job Satisfaction", "Environment Satisfaction", "Work Life Balance",
+                "OverTime_Binary", "Num Companies Worked", "Stock Option Level")
+
+X_lasso <- as.matrix(hr_data[, lasso_vars])
+y_lasso <- hr_data$Attrition_Binary
+
+# Cross-validated LASSO
+cv_lasso <- cv.glmnet(X_lasso, y_lasso, family = "binomial", alpha = 1, nfolds = 10)
+
+# Plot CV
+plot(cv_lasso)
+
+# Optimal lambda
+cat("Optimal Lambda:", cv_lasso$lambda.min, "\n")
+
+# Coefficients
+lasso_coefs <- coef(cv_lasso, s = "lambda.min")
+print(lasso_coefs)
+```
+
+## ROC-AUC and Threshold Analysis
+
+```{r}
+#| label: q2-threshold
+
+# Predictions
+pred_probs_q2 <- predict(logit_q2, type = "response")
+roc_q2 <- roc(hr_data$Attrition_Binary, pred_probs_q2)
+
+# Optimal threshold (Youden's J)
+coords_best <- coords(roc_q2, "best", ret = c("threshold", "sensitivity", "specificity"))
+cat("Optimal Threshold:", coords_best$threshold, "\n")
+cat("Sensitivity:", coords_best$sensitivity, "\n")
+cat("Specificity:", coords_best$specificity, "\n")
+
+# ROC plot
+plot(roc_q2, main = "ROC Curve - Career Stagnation Model")
+points(coords_best$specificity, coords_best$sensitivity, pch = 19, col = "red", cex = 2)
+
+# Classification at different thresholds
+for (thresh in c(0.1, 0.2, 0.3, 0.4, 0.5, coords_best$threshold)) {
+  pred <- ifelse(pred_probs_q2 >= thresh, 1, 0)
+  sens <- mean(pred[hr_data$Attrition_Binary == 1] == 1)
+  spec <- mean(pred[hr_data$Attrition_Binary == 0] == 0)
+  acc <- mean(pred == hr_data$Attrition_Binary)
+  cat(sprintf("Threshold %.3f: Sens=%.3f, Spec=%.3f, Acc=%.3f\n", thresh, sens, spec, acc))
+}
+```
+
+# Research Question 3: Department-Stratified Analysis
+
+## VIF Analysis
+
+```{r}
+#| label: q3-vif
+
+# VIF model
+vif_model <- lm(Attrition_Binary ~ `Job Satisfaction` + `Environment Satisfaction` +
+                  `Relationship Satisfaction` + `Work Life Balance` + 
+                  `Job Involvement` + `Monthly Income` + Age,
+                data = hr_data)
+
+vif(vif_model)
+```
+
+## Stratified Logistic Regression
+
+```{r}
+#| label: q3-stratified
+
+# Fit models for each department
+departments <- c("Sales", "R&D", "HR")
+
+for (dept in departments) {
+  cat("\n========================================\n")
+  cat("DEPARTMENT:", dept, "\n")
+  cat("========================================\n")
+  
+  df_dept <- hr_data %>% filter(Department == dept)
+  
+  cat("Sample Size:", nrow(df_dept), "\n")
+  cat("Attrition Rate:", round(mean(df_dept$Attrition_Binary) * 100, 1), "%\n")
+  
+  model_dept <- glm(
+    Attrition_Binary ~ `Job Satisfaction` + `Environment Satisfaction` + `Relationship Satisfaction`,
+    data = df_dept,
+    family = binomial()
+  )
+  
+  print(summary(model_dept))
+  
+  cat("\nOdds Ratios:\n")
+  print(exp(coef(model_dept)))
+  
+  # AUC
+  pred_probs <- predict(model_dept, type = "response")
+  roc_dept <- roc(df_dept$Attrition_Binary, pred_probs, quiet = TRUE)
+  cat("\nAUC:", round(auc(roc_dept), 3), "\n")
+}
+```
+
+# Final Summary
+
+```{r}
+#| label: summary
+
+cat("=============================================\n")
+cat("FINAL SUMMARY\n")
+cat("=============================================\n")
+cat("Total Employees:", nrow(hr_data), "\n")
+cat("Attrition Rate:", round(mean(hr_data$Attrition_Binary) * 100, 1), "%\n")
+cat("\nModel Performance:\n")
+cat("- Decision Tree AUC:", round(auc(roc_dt), 3), "\n")
+cat("- Random Forest AUC:", round(auc(roc_rf), 3), "\n")
+cat("- Weighted LR AUC:", round(auc(roc_q2), 3), "\n")
+cat("\nKey Findings:\n")
+cat("1. OverTime is the strongest predictor of attrition\n")
+cat("2. Years Since Last Promotion increases risk by ~13% per year\n")
+cat("3. Satisfaction effects vary significantly by department\n")
+```
+
+# Session Info
+
+```{r}
+#| label: session-info
+
+sessionInfo()
+```

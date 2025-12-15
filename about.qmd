@@ -1,0 +1,102 @@
+---
+title: "About"
+execute:
+  echo: false
+---
+
+## Project Team
+
+This project was completed as the final project for **STAT 515: Applied Statistics & Visualization for Analytics** at George Mason University, Fall 2024.
+
+### Team Members
+
+::: callout-note
+## Rutvij
+
+**Contributions:**
+
+-   Data preprocessing and cleaning
+-   Research Question 1 analysis (Decision Tree, Random Forest, Logistic Regression with interactions)
+-   Research Question 2 analysis (Weighted Logistic Regression, LASSO variable selection)
+-   Report writing and documentation
+-   Project coordination
+:::
+
+::: callout-note
+## Sean Grieg
+
+**Contributions:**
+
+-   Exploratory Data Analysis
+-   Chi-square tests and statistical testing
+-   Research Question 3 analysis (Department-stratified models, VIF analysis)
+-   Model diagnostics and performance evaluation
+-   Visualization design
+:::
+
+------------------------------------------------------------------------
+
+## Project Overview
+
+This comprehensive statistical analysis investigates the factors contributing to employee attrition using the IBM HR Analytics Employee Attrition & Performance dataset. The study addresses three primary research questions:
+
+1.  **Work-Life Imbalance & Attrition Risk Profiling** - Using Decision Trees, Logistic Regression with interactions, and Random Forest
+
+2.  **Career Stagnation Thresholds & Compensation Effects** - Using Weighted Logistic Regression, LASSO variable selection, and ROC-AUC threshold analysis
+
+3.  **Department-Stratified Satisfaction Analysis** - Using stratified logistic regression, VIF analysis, and performance comparison
+
+------------------------------------------------------------------------
+
+## Dataset
+
+The IBM HR Analytics Employee Attrition dataset contains:
+
+-   **1,470** employee records
+-   **39** variables including demographics, job characteristics, satisfaction metrics, and work-life balance indicators
+-   **16.1%** overall attrition rate (class imbalance)
+-   **No missing data**
+
+**Source:** [IBM HR Analytics on data.world](https://data.world/aaizemberg/hr-employee-attrition)
+
+------------------------------------------------------------------------
+
+## Methods Used
+
+| Method                       | Application                              |
+|------------------------------|------------------------------------------|
+| Chi-Square Tests             | Testing categorical associations         |
+| T-Tests                      | Comparing numeric variables              |
+| Decision Tree Classification | Identifying risk profiles                |
+| Random Forest                | Variable importance, non-linear effects  |
+| Logistic Regression          | Statistical inference, odds ratios       |
+| LASSO Regression             | Variable selection                       |
+| ROC-AUC Analysis             | Model evaluation, threshold optimization |
+| VIF Analysis                 | Multicollinearity assessment             |
+| Stratified Modeling          | Department-specific effects              |
+
+------------------------------------------------------------------------
+
+## Course Information
+
+-   **Course:** STAT 515 - Applied Statistics & Visualization for Analytics
+-   **Institution:** George Mason University
+-   **Semester:** Fall 2024
+-   **Instructor:** Professor Dassanayake
+
+------------------------------------------------------------------------
+
+## Repository
+
+The complete code and analysis files are available in this Quarto project. To reproduce the analysis:
+
+1.  Ensure R and RStudio are installed
+2.  Install required packages: `tidyverse`, `caret`, `rpart`, `randomForest`, `glmnet`, `pROC`
+3.  Open the `.Rproj` file in RStudio
+4.  Render the Quarto documents using `quarto render`
+
+------------------------------------------------------------------------
+
+## Contact
+
+For questions about this analysis, please contact the team members through George Mason University.

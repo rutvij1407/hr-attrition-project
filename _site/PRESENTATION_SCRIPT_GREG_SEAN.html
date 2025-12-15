@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.24">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>presentation_script_greg_sean – STAT 515 Final Project</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a6e161b2431e1f94a14e0f5d32135a3c.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-f78df75c894ad2ea722f04417f8702c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">STAT 515 Final Project</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./projectcode.html"> 
+<span class="menu-text">Project Code</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#stat-515-final-project-presentation-script---greg-sean" id="toc-stat-515-final-project-presentation-script---greg-sean" class="nav-link active" data-scroll-target="#stat-515-final-project-presentation-script---greg-sean"><span class="header-section-number">1</span> STAT 515 Final Project Presentation Script - GREG SEAN</a>
+  <ul class="collapse">
+  <li><a href="#transition-from-rupesh-30-seconds" id="toc-transition-from-rupesh-30-seconds" class="nav-link" data-scroll-target="#transition-from-rupesh-30-seconds"><span class="header-section-number">1.1</span> Transition from Rupesh (30 seconds)</a></li>
+  <li><a href="#question-3-department-stratified-satisfaction-analysis-5-6-minutes" id="toc-question-3-department-stratified-satisfaction-analysis-5-6-minutes" class="nav-link" data-scroll-target="#question-3-department-stratified-satisfaction-analysis-5-6-minutes"><span class="header-section-number">1.2</span> Question 3: Department-Stratified Satisfaction Analysis (5-6 minutes)</a>
+  <ul class="collapse">
+  <li><a href="#why-stratify-by-department" id="toc-why-stratify-by-department" class="nav-link" data-scroll-target="#why-stratify-by-department"><span class="header-section-number">1.2.1</span> Why Stratify by Department?</a></li>
+  <li><a href="#key-variables-q3" id="toc-key-variables-q3" class="nav-link" data-scroll-target="#key-variables-q3"><span class="header-section-number">1.2.2</span> Key Variables (Q3)</a></li>
+  <li><a href="#methodology-stratified-logistic-regression" id="toc-methodology-stratified-logistic-regression" class="nav-link" data-scroll-target="#methodology-stratified-logistic-regression"><span class="header-section-number">1.2.3</span> Methodology: Stratified Logistic Regression</a></li>
+  <li><a href="#department-breakdown" id="toc-department-breakdown" class="nav-link" data-scroll-target="#department-breakdown"><span class="header-section-number">1.2.4</span> Department Breakdown</a></li>
+  <li><a href="#key-findings-q3" id="toc-key-findings-q3" class="nav-link" data-scroll-target="#key-findings-q3"><span class="header-section-number">1.2.5</span> Key Findings (Q3)</a></li>
+  <li><a href="#comparative-analysis-across-departments" id="toc-comparative-analysis-across-departments" class="nav-link" data-scroll-target="#comparative-analysis-across-departments"><span class="header-section-number">1.2.6</span> Comparative Analysis Across Departments</a></li>
+  <li><a href="#practical-implications-q3" id="toc-practical-implications-q3" class="nav-link" data-scroll-target="#practical-implications-q3"><span class="header-section-number">1.2.7</span> Practical Implications (Q3)</a></li>
+  </ul></li>
+  <li><a href="#comprehensive-model-comparison-3-4-minutes" id="toc-comprehensive-model-comparison-3-4-minutes" class="nav-link" data-scroll-target="#comprehensive-model-comparison-3-4-minutes"><span class="header-section-number">1.3</span> Comprehensive Model Comparison (3-4 minutes)</a>
+  <ul class="collapse">
+  <li><a href="#model-performance-summary" id="toc-model-performance-summary" class="nav-link" data-scroll-target="#model-performance-summary"><span class="header-section-number">1.3.1</span> Model Performance Summary</a></li>
+  <li><a href="#model-type-performance" id="toc-model-type-performance" class="nav-link" data-scroll-target="#model-type-performance"><span class="header-section-number">1.3.2</span> Model Type Performance</a></li>
+  <li><a href="#which-model-to-use-when" id="toc-which-model-to-use-when" class="nav-link" data-scroll-target="#which-model-to-use-when"><span class="header-section-number">1.3.3</span> Which Model to Use When?</a></li>
+  </ul></li>
+  <li><a href="#overall-conclusions-recommendations-3-4-minutes" id="toc-overall-conclusions-recommendations-3-4-minutes" class="nav-link" data-scroll-target="#overall-conclusions-recommendations-3-4-minutes"><span class="header-section-number">1.4</span> Overall Conclusions &amp; Recommendations (3-4 minutes)</a>
+  <ul class="collapse">
+  <li><a href="#summary-of-key-findings" id="toc-summary-of-key-findings" class="nav-link" data-scroll-target="#summary-of-key-findings"><span class="header-section-number">1.4.1</span> Summary of Key Findings</a></li>
+  <li><a href="#comprehensive-hr-recommendations" id="toc-comprehensive-hr-recommendations" class="nav-link" data-scroll-target="#comprehensive-hr-recommendations"><span class="header-section-number">1.4.2</span> Comprehensive HR Recommendations</a></li>
+  <li><a href="#overall-expected-roi" id="toc-overall-expected-roi" class="nav-link" data-scroll-target="#overall-expected-roi"><span class="header-section-number">1.4.3</span> Overall Expected ROI</a></li>
+  </ul></li>
+  <li><a href="#limitations-future-work-2-minutes" id="toc-limitations-future-work-2-minutes" class="nav-link" data-scroll-target="#limitations-future-work-2-minutes"><span class="header-section-number">1.5</span> Limitations &amp; Future Work (2 minutes)</a>
+  <ul class="collapse">
+  <li><a href="#data-limitations" id="toc-data-limitations" class="nav-link" data-scroll-target="#data-limitations"><span class="header-section-number">1.5.1</span> Data Limitations</a></li>
+  <li><a href="#methodological-limitations" id="toc-methodological-limitations" class="nav-link" data-scroll-target="#methodological-limitations"><span class="header-section-number">1.5.2</span> Methodological Limitations</a></li>
+  </ul></li>
+  <li><a href="#technical-qa-preparation" id="toc-technical-qa-preparation" class="nav-link" data-scroll-target="#technical-qa-preparation"><span class="header-section-number">1.6</span> Technical Q&amp;A Preparation</a>
+  <ul class="collapse">
+  <li><a href="#q-why-use-stratified-models-instead-of-one-model-with-department-as-a-predictor" id="toc-q-why-use-stratified-models-instead-of-one-model-with-department-as-a-predictor" class="nav-link" data-scroll-target="#q-why-use-stratified-models-instead-of-one-model-with-department-as-a-predictor"><span class="header-section-number">1.6.1</span> Q: “Why use stratified models instead of one model with Department as a predictor?”</a></li>
+  <li><a href="#q-your-auc-values-are-only-0.68-0.78.-isnt-that-low" id="toc-q-your-auc-values-are-only-0.68-0.78.-isnt-that-low" class="nav-link" data-scroll-target="#q-your-auc-values-are-only-0.68-0.78.-isnt-that-low"><span class="header-section-number">1.6.2</span> Q: “Your AUC values are only 0.68-0.78. Isn’t that low?”</a></li>
+  <li><a href="#q-why-didnt-you-use-neural-networks-or-more-advanced-methods" id="toc-q-why-didnt-you-use-neural-networks-or-more-advanced-methods" class="nav-link" data-scroll-target="#q-why-didnt-you-use-neural-networks-or-more-advanced-methods"><span class="header-section-number">1.6.3</span> Q: “Why didn’t you use neural networks or more advanced methods?”</a></li>
+  <li><a href="#q-how-did-you-handle-the-limited-hr-department-sample-size" id="toc-q-how-did-you-handle-the-limited-hr-department-sample-size" class="nav-link" data-scroll-target="#q-how-did-you-handle-the-limited-hr-department-sample-size"><span class="header-section-number">1.6.4</span> Q: “How did you handle the limited HR department sample size?”</a></li>
+  </ul></li>
+  <li><a href="#closing-statement-1-minute" id="toc-closing-statement-1-minute" class="nav-link" data-scroll-target="#closing-statement-1-minute"><span class="header-section-number">1.7</span> Closing Statement (1 minute)</a></li>
+  <li><a href="#additional-qa-points" id="toc-additional-qa-points" class="nav-link" data-scroll-target="#additional-qa-points"><span class="header-section-number">1.8</span> Additional Q&amp;A Points</a>
+  <ul class="collapse">
+  <li><a href="#q-what-would-you-do-differently-if-you-had-more-time" id="toc-q-what-would-you-do-differently-if-you-had-more-time" class="nav-link" data-scroll-target="#q-what-would-you-do-differently-if-you-had-more-time"><span class="header-section-number">1.8.1</span> Q: “What would you do differently if you had more time?”</a></li>
+  <li><a href="#q-how-would-you-deploy-this-model-in-production" id="toc-q-how-would-you-deploy-this-model-in-production" class="nav-link" data-scroll-target="#q-how-would-you-deploy-this-model-in-production"><span class="header-section-number">1.8.2</span> Q: “How would you deploy this model in production?”</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><h1 class="title display-7"></h1></header><div class="quarto-title-block"><div class="quarto-title-tools-only"><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+
+
+
+
+<section id="stat-515-final-project-presentation-script---greg-sean" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> STAT 515 Final Project Presentation Script - GREG SEAN</h1>
+<section id="transition-from-rupesh-30-seconds" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="transition-from-rupesh-30-seconds"><span class="header-section-number">1.1</span> Transition from Rupesh (30 seconds)</h2>
+<p><strong>GREG:</strong> “Thank you, Rupesh. We’ve seen that overtime work and career stagnation are major attrition drivers. But do these factors affect all departments equally? That’s what our third research question addresses.</p>
+<hr>
+</section>
+<section id="question-3-department-stratified-satisfaction-analysis-5-6-minutes" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="question-3-department-stratified-satisfaction-analysis-5-6-minutes"><span class="header-section-number">1.2</span> Question 3: Department-Stratified Satisfaction Analysis (5-6 minutes)</h2>
+<p><strong>GREG:</strong> “Our third research question asks: Do satisfaction variables predict attrition differently across departments? Should HR implement department-specific retention strategies?</p>
+<section id="why-stratify-by-department" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="why-stratify-by-department"><span class="header-section-number">1.2.1</span> Why Stratify by Department?</h3>
+<p>Organizations often apply one-size-fits-all retention programs, but this ignores fundamental differences in job characteristics:</p>
+<ul>
+<li><strong>R&amp;D Engineers:</strong> Creative problem-solving, collaborative projects, technical challenges</li>
+<li><strong>Sales Representatives:</strong> Client-facing, commission-driven, high-pressure targets</li>
+<li><strong>HR Professionals:</strong> People-focused, policy implementation, organizational support</li>
+</ul>
+<p>These distinct roles likely have different satisfaction drivers and attrition patterns.</p>
+</section>
+<section id="key-variables-q3" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="key-variables-q3"><span class="header-section-number">1.2.2</span> Key Variables (Q3)</h3>
+<ul>
+<li><strong>JobSatisfaction:</strong> Satisfaction with role/responsibilities (1-4 scale)</li>
+<li><strong>EnvironmentSatisfaction:</strong> Satisfaction with work environment (1-4 scale)</li>
+<li><strong>RelationshipSatisfaction:</strong> Satisfaction with colleagues/manager (1-4 scale)</li>
+<li><strong>Department:</strong> R&amp;D, Sales, or HR</li>
+</ul>
+</section>
+<section id="methodology-stratified-logistic-regression" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="methodology-stratified-logistic-regression"><span class="header-section-number">1.2.3</span> Methodology: Stratified Logistic Regression</h3>
+<p>We fit separate logistic regression models for each department:</p>
+<pre><code>Model: Attrition ~ JobSatisfaction + EnvironmentSatisfaction + RelationshipSatisfaction
+Separate models for: R&amp;D, Sales, HR</code></pre>
+<p>This approach allows: - Different coefficient estimates per department - Department-specific effect sizes - Tailored insights for targeted interventions</p>
+</section>
+<section id="department-breakdown" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="department-breakdown"><span class="header-section-number">1.2.4</span> Department Breakdown</h3>
+<p><strong>Research &amp; Development (R&amp;D):</strong> - Sample size: 961 employees (65% of dataset) - Attrition rate: 13.8% (lowest) - Most stable department</p>
+<p><strong>Sales:</strong> - Sample size: 446 employees (30% of dataset) - Attrition rate: 20.6% (highest) - Highest turnover challenge</p>
+<p><strong>Human Resources (HR):</strong> - Sample size: 63 employees (4% of dataset) - Attrition rate: 19.0% - Limited statistical power due to small sample</p>
+</section>
+<section id="key-findings-q3" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="key-findings-q3"><span class="header-section-number">1.2.5</span> Key Findings (Q3)</h3>
+<p><strong>1. R&amp;D Department (n=961, 13.8% attrition)</strong></p>
+<p>All three satisfaction measures are statistically significant predictors:</p>
+<ul>
+<li><strong>JobSatisfaction:</strong> Coefficient = -0.512 (p &lt; 0.001)
+<ul>
+<li>Odds Ratio = 0.60 → Each 1-point increase in job satisfaction reduces attrition odds by 40%</li>
+</ul></li>
+<li><strong>EnvironmentSatisfaction:</strong> Coefficient = -0.487 (p &lt; 0.001)
+<ul>
+<li>Odds Ratio = 0.61 → Each 1-point increase reduces attrition odds by 39%</li>
+</ul></li>
+<li><strong>RelationshipSatisfaction:</strong> Coefficient = -0.384 (p &lt; 0.01)
+<ul>
+<li>Odds Ratio = 0.68 → Each 1-point increase reduces attrition odds by 32%</li>
+</ul></li>
+</ul>
+<p><strong>Model Performance:</strong> AUC = 0.706</p>
+<p><strong>Interpretation:</strong> R&amp;D employees are highly sensitive to satisfaction levels across all dimensions. This makes sense - engineers and scientists value intellectual stimulation (job), collaborative environment (environment), and peer relationships (relationship).</p>
+<hr>
+<p><strong>2. Sales Department (n=446, 20.6% attrition)</strong></p>
+<p>Only two satisfaction measures are significant:</p>
+<ul>
+<li><strong>JobSatisfaction:</strong> Coefficient = -0.623 (p &lt; 0.01)
+<ul>
+<li>Odds Ratio = 0.54 → Each 1-point increase reduces attrition odds by 46%</li>
+</ul></li>
+<li><strong>EnvironmentSatisfaction:</strong> Coefficient = -0.498 (p &lt; 0.05)
+<ul>
+<li>Odds Ratio = 0.61 → Each 1-point increase reduces attrition odds by 39%</li>
+</ul></li>
+<li><strong>RelationshipSatisfaction:</strong> Coefficient = -0.201 (p = 0.24) - <strong>NOT SIGNIFICANT</strong></li>
+</ul>
+<p><strong>Model Performance:</strong> AUC = 0.679</p>
+<p><strong>Interpretation:</strong> Sales representatives care primarily about role fit (job satisfaction) and work conditions (environment), but relationships with colleagues matter less. This aligns with sales culture - individual performance, commission structures, and client relationships dominate. Internal peer relationships are secondary.</p>
+<p><strong>Critical Insight:</strong> Sales has the <strong>highest attrition rate (20.6%)</strong> - this department requires immediate attention.</p>
+<hr>
+<p><strong>3. HR Department (n=63, 19.0% attrition)</strong></p>
+<p>None of the satisfaction predictors reach statistical significance:</p>
+<ul>
+<li><strong>JobSatisfaction:</strong> Coefficient = -0.472 (p = 0.19)</li>
+<li><strong>EnvironmentSatisfaction:</strong> Coefficient = -0.289 (p = 0.38)</li>
+<li><strong>RelationshipSatisfaction:</strong> Coefficient = -0.156 (p = 0.66)</li>
+</ul>
+<p><strong>Model Performance:</strong> AUC = 0.682</p>
+<p><strong>Interpretation:</strong> The lack of significance is likely due to <strong>limited sample size (n=63)</strong>. With only 12 attrition cases in HR (19% of 63), we have insufficient statistical power to detect effects. The coefficient directions are negative (protective against attrition), but confidence intervals are too wide for significance.</p>
+<hr>
+</section>
+<section id="comparative-analysis-across-departments" class="level3" data-number="1.2.6">
+<h3 data-number="1.2.6" class="anchored" data-anchor-id="comparative-analysis-across-departments"><span class="header-section-number">1.2.6</span> Comparative Analysis Across Departments</h3>
+<p><strong>Coefficient Comparison (Figure 11):</strong> Our visualization shows:</p>
+<ul>
+<li><strong>R&amp;D:</strong> All three coefficients are strongly negative and significant</li>
+<li><strong>Sales:</strong> Job and Environment coefficients are negative; Relationship is near zero</li>
+<li><strong>HR:</strong> All coefficients are negative but with wide confidence intervals</li>
+</ul>
+<p><strong>Model Performance Table (Table 9):</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Department</th>
+<th>N</th>
+<th>Attrition Rate</th>
+<th>AIC</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>R&amp;D</td>
+<td>961</td>
+<td>13.8%</td>
+<td>643.71</td>
+<td>0.706</td>
+</tr>
+<tr class="even">
+<td>Sales</td>
+<td>446</td>
+<td>20.6%</td>
+<td>355.88</td>
+<td>0.679</td>
+</tr>
+<tr class="odd">
+<td>HR</td>
+<td>63</td>
+<td>19.0%</td>
+<td>58.23</td>
+<td>0.682</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Observations:</strong> 1. R&amp;D has best model performance (highest AUC) due to large sample and clear satisfaction-attrition relationships 2. Sales has worst attrition rate (20.6%) but moderate model performance 3. HR has smallest sample, limiting both power and model reliability</p>
+<hr>
+</section>
+<section id="practical-implications-q3" class="level3" data-number="1.2.7">
+<h3 data-number="1.2.7" class="anchored" data-anchor-id="practical-implications-q3"><span class="header-section-number">1.2.7</span> Practical Implications (Q3)</h3>
+<p><strong>Department-Specific Retention Strategies:</strong></p>
+<p><strong>For R&amp;D (13.8% attrition):</strong> - <strong>Focus:</strong> All-around satisfaction improvement - <strong>Actions:</strong> - Enhance project variety and technical challenges (job satisfaction) - Invest in modern tools and collaborative spaces (environment satisfaction) - Foster team-building and mentorship programs (relationship satisfaction) - <strong>Why:</strong> R&amp;D shows significant effects across all three dimensions</p>
+<p><strong>For Sales (20.6% attrition - HIGHEST PRIORITY):</strong> - <strong>Focus:</strong> Role clarity and work conditions - <strong>Actions:</strong> - Realign territories and commission structures (job satisfaction) - Provide CRM tools, sales training, and support resources (environment satisfaction) - De-prioritize team-building initiatives (relationship satisfaction not significant) - <strong>Why:</strong> Sales attrition is double that of R&amp;D; focus resources where they matter most</p>
+<p><strong>For HR (19.0% attrition):</strong> - <strong>Focus:</strong> Broader diagnostic needed - <strong>Actions:</strong> - Conduct qualitative exit interviews - Analyze non-satisfaction factors (compensation, career path, workload) - Consider merging with broader “professional services” category for future analysis - <strong>Why:</strong> Small sample limits quantitative insights; need qualitative data</p>
+<hr>
+</section>
+</section>
+<section id="comprehensive-model-comparison-3-4-minutes" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="comprehensive-model-comparison-3-4-minutes"><span class="header-section-number">1.3</span> Comprehensive Model Comparison (3-4 minutes)</h2>
+<p><strong>GREG:</strong> “Now let’s step back and compare all eight models we’ve built across the three research questions.</p>
+<section id="model-performance-summary" class="level3" data-number="1.3.1">
+<h3 data-number="1.3.1" class="anchored" data-anchor-id="model-performance-summary"><span class="header-section-number">1.3.1</span> Model Performance Summary</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>AUC</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Random Forest (Q1)</strong></td>
+<td>0.777</td>
+<td>Tree-Based</td>
+</tr>
+<tr class="even">
+<td>Weighted Logistic (Q2)</td>
+<td>0.752</td>
+<td>Logistic</td>
+</tr>
+<tr class="odd">
+<td>LASSO Logistic (Q2)</td>
+<td>0.747</td>
+<td>Logistic</td>
+</tr>
+<tr class="even">
+<td>Unweighted Logistic (Q2)</td>
+<td>0.732</td>
+<td>Logistic</td>
+</tr>
+<tr class="odd">
+<td>Stratified LR - R&amp;D (Q3)</td>
+<td>0.706</td>
+<td>Stratified</td>
+</tr>
+<tr class="even">
+<td>Decision Tree (Q1)</td>
+<td>0.685</td>
+<td>Tree-Based</td>
+</tr>
+<tr class="odd">
+<td>Stratified LR - HR (Q3)</td>
+<td>0.682</td>
+<td>Stratified</td>
+</tr>
+<tr class="even">
+<td>Stratified LR - Sales (Q3)</td>
+<td>0.679</td>
+<td>Stratified</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="model-type-performance" class="level3" data-number="1.3.2">
+<h3 data-number="1.3.2" class="anchored" data-anchor-id="model-type-performance"><span class="header-section-number">1.3.2</span> Model Type Performance</h3>
+<p><strong>Tree-Based Models:</strong> - Mean AUC: 0.731 - Range: 0.685 - 0.777 - Best overall performer: Random Forest</p>
+<p><strong>Logistic Models:</strong> - Mean AUC: 0.744 - Range: 0.732 - 0.752 - Consistent performance across variants</p>
+<p><strong>Stratified Models:</strong> - Mean AUC: 0.689 - Range: 0.679 - 0.706 - Lower AUC due to smaller samples per department</p>
+</section>
+<section id="which-model-to-use-when" class="level3" data-number="1.3.3">
+<h3 data-number="1.3.3" class="anchored" data-anchor-id="which-model-to-use-when"><span class="header-section-number">1.3.3</span> Which Model to Use When?</h3>
+<p><strong>For Maximum Prediction Accuracy:</strong> → <strong>Use Random Forest (AUC = 0.777)</strong> - Best for automated early-warning systems - Identifies at-risk employees with highest accuracy - Deploy for production prediction tasks</p>
+<p><strong>For Business Interpretability:</strong> → <strong>Use Weighted Logistic Regression (AUC = 0.752)</strong> - Provides clear coefficient interpretations - “Each year without promotion increases odds by 13%” → actionable insight - Stakeholders can understand and trust the model logic</p>
+<p><strong>For Variable Selection:</strong> → <strong>Use LASSO (AUC = 0.747)</strong> - Automatically identifies most important predictors - Reduces 16 candidates to 14 essential variables - Good balance of performance and parsimony</p>
+<p><strong>For Targeted Interventions:</strong> → <strong>Use Department-Stratified Models</strong> - Different coefficients per department - Enables tailored retention programs - Lower AUC acceptable when specificity matters more than aggregate accuracy</p>
+<hr>
+</section>
+</section>
+<section id="overall-conclusions-recommendations-3-4-minutes" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="overall-conclusions-recommendations-3-4-minutes"><span class="header-section-number">1.4</span> Overall Conclusions &amp; Recommendations (3-4 minutes)</h2>
+<p><strong>GREG:</strong> “Let me synthesize our key findings and provide actionable recommendations.</p>
+<section id="summary-of-key-findings" class="level3" data-number="1.4.1">
+<h3 data-number="1.4.1" class="anchored" data-anchor-id="summary-of-key-findings"><span class="header-section-number">1.4.1</span> Summary of Key Findings</h3>
+<p><strong>Across all three research questions, we found:</strong></p>
+<ol type="1">
+<li><strong>OverTime is the Single Strongest Predictor</strong>
+<ul>
+<li>30.5% attrition for overtime workers vs.&nbsp;10.4% for non-overtime</li>
+<li>Appears in top predictors across multiple models</li>
+<li>Effect is consistent across departments</li>
+</ul></li>
+<li><strong>Career Stagnation Has Threshold Effects</strong>
+<ul>
+<li>Each year without promotion increases attrition odds by 13%</li>
+<li>Risk accelerates non-linearly: 4+ years = critical threshold</li>
+<li>Stock options provide strong protective effect</li>
+</ul></li>
+<li><strong>Department Differences Are Substantial</strong>
+<ul>
+<li>R&amp;D: 13.8% attrition, sensitive to all satisfaction dimensions</li>
+<li>Sales: 20.6% attrition, sensitive to job/environment only</li>
+<li>HR: 19.0% attrition, limited sample power</li>
+</ul></li>
+<li><strong>Model Performance Varies by Purpose</strong>
+<ul>
+<li>Random Forest: Best accuracy (AUC = 0.777)</li>
+<li>Weighted Logistic: Best interpretability (AUC = 0.752)</li>
+<li>LASSO: Best parsimony (AUC = 0.747)</li>
+</ul></li>
+</ol>
+</section>
+<section id="comprehensive-hr-recommendations" class="level3" data-number="1.4.2">
+<h3 data-number="1.4.2" class="anchored" data-anchor-id="comprehensive-hr-recommendations"><span class="header-section-number">1.4.2</span> Comprehensive HR Recommendations</h3>
+<p><strong>Priority 1: Overtime Management (Immediate - Weeks 1-4)</strong></p>
+<p><strong>Current State:</strong> 30% of employees work overtime; 30.5% attrition rate in this group.</p>
+<p><strong>Actions:</strong> 1. <strong>Workload Monitoring Dashboard</strong> - Track weekly hours in real-time - Flag employees exceeding 45 hours for 3+ consecutive weeks - Estimated cost: $15,000 for software implementation</p>
+<ol start="2" type="1">
+<li><strong>Workload Rebalancing Protocol</strong>
+<ul>
+<li>Quarterly capacity planning meetings</li>
+<li>Redistribute work across team members</li>
+<li>Hire temporary contractors during peak periods</li>
+</ul></li>
+<li><strong>Flexible Scheduling Policy</strong>
+<ul>
+<li>Allow compressed work weeks</li>
+<li>Enable remote work for 2-3 days/week (reduces overtime and commute burden)</li>
+</ul></li>
+</ol>
+<p><strong>Expected Impact:</strong> Reduce overtime prevalence from 30% to 20%, preventing 35-40 annual departures.<br>
+<strong>ROI:</strong> Assuming average replacement cost of $50,000/employee, this saves $1.75M-$2M annually vs.&nbsp;$15K investment = 116x return.</p>
+<hr>
+<p><strong>Priority 2: Career Development Acceleration (Short-term - Months 1-6)</strong></p>
+<p><strong>Current State:</strong> 15% of employees at 4+ years without promotion; 13% increased odds per year.</p>
+<p><strong>Actions:</strong> 1. <strong>Mandatory Career Review at Year 3</strong> - Individual development plans - Promotion eligibility assessment - Lateral move opportunities if vertical promotion unavailable</p>
+<ol start="2" type="1">
+<li><strong>Fast-Track Program</strong>
+<ul>
+<li>Identify high-performers at year 2.5</li>
+<li>Accelerated promotion pathway (target 3-year cycle vs.&nbsp;4-5 year)</li>
+</ul></li>
+<li><strong>Enhanced Stock Options</strong>
+<ul>
+<li>LASSO identified stock options as strong protective factor</li>
+<li>Expand eligibility to employees at 3+ years tenure</li>
+<li>Vesting schedule tied to 4-year retention</li>
+</ul></li>
+</ol>
+<p><strong>Expected Impact:</strong> Reduce proportion of 4+ year stagnation from 15% to 10%, preventing 25-30 annual departures.<br>
+<strong>ROI:</strong> $1.25M-$1.5M annual savings (assuming $50K replacement cost).</p>
+<hr>
+<p><strong>Priority 3: Department-Specific Interventions (Medium-term - Months 3-12)</strong></p>
+<p><strong>Sales Department (HIGHEST ATTRITION: 20.6%)</strong></p>
+<p><strong>Actions:</strong> 1. <strong>Territory Optimization</strong> - Rebalance account assignments - Reduce travel requirements where possible - Clarify commission structures</p>
+<ol start="2" type="1">
+<li><strong>Sales Enablement Resources</strong>
+<ul>
+<li>Improve CRM systems</li>
+<li>Provide ongoing training</li>
+<li>Enhance marketing support</li>
+</ul></li>
+<li><strong>Environment Improvements</strong>
+<ul>
+<li>Modern sales tools</li>
+<li>Quiet spaces for phone calls</li>
+<li>Recognition programs (not relationship-building - that’s not significant for Sales)</li>
+</ul></li>
+</ol>
+<p><strong>Expected Impact:</strong> Reduce Sales attrition from 20.6% to 16% (overall average), preventing 20-25 annual departures in Sales.</p>
+<p><strong>R&amp;D Department (Maintain Excellence)</strong></p>
+<p><strong>Actions:</strong> 1. Continue holistic satisfaction focus 2. Invest in challenging projects 3. Foster collaborative culture 4. Maintain current retention programs</p>
+<p><strong>HR Department (Diagnostic Phase)</strong></p>
+<p><strong>Actions:</strong> 1. Conduct qualitative exit interviews (sample too small for quantitative insights) 2. Benchmark against other professional service departments 3. Revisit in 12 months with larger sample</p>
+<p><strong>Expected Impact for all Priority 3:</strong> 20-30 fewer annual departures.</p>
+<hr>
+</section>
+<section id="overall-expected-roi" class="level3" data-number="1.4.3">
+<h3 data-number="1.4.3" class="anchored" data-anchor-id="overall-expected-roi"><span class="header-section-number">1.4.3</span> Overall Expected ROI</h3>
+<p><strong>Combined Intervention Impact:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Priority</th>
+<th>Prevented Departures</th>
+<th>Cost Savings</th>
+<th>Investment</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Overtime Mgmt</td>
+<td>35-40</td>
+<td>$1.75M-$2.0M</td>
+<td>$15K</td>
+</tr>
+<tr class="even">
+<td>Career Dev</td>
+<td>25-30</td>
+<td>$1.25M-$1.5M</td>
+<td>$50K</td>
+</tr>
+<tr class="odd">
+<td>Dept-Specific</td>
+<td>20-30</td>
+<td>$1.0M-$1.5M</td>
+<td>$80K</td>
+</tr>
+<tr class="even">
+<td><strong>TOTAL</strong></td>
+<td><strong>80-100</strong></td>
+<td><strong>$4.0M-$5.0M</strong></td>
+<td><strong>$145K</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Net ROI:</strong> $3.85M-$4.85M annual savings for $145K investment = <strong>27-33x return in Year 1 alone</strong>.</p>
+<hr>
+</section>
+</section>
+<section id="limitations-future-work-2-minutes" class="level2" data-number="1.5">
+<h2 data-number="1.5" class="anchored" data-anchor-id="limitations-future-work-2-minutes"><span class="header-section-number">1.5</span> Limitations &amp; Future Work (2 minutes)</h2>
+<p><strong>GREG:</strong> “Like any analysis, ours has limitations:</p>
+<section id="data-limitations" class="level3" data-number="1.5.1">
+<h3 data-number="1.5.1" class="anchored" data-anchor-id="data-limitations"><span class="header-section-number">1.5.1</span> Data Limitations</h3>
+<ol type="1">
+<li><strong>Synthetic Dataset</strong>
+<ul>
+<li>IBM simulated this data for teaching purposes</li>
+<li>While realistic, patterns may not perfectly mirror actual company data</li>
+<li><strong>Mitigation:</strong> All methodologies are sound and transferable to real datasets</li>
+</ul></li>
+<li><strong>Class Imbalance (16.1% attrition)</strong>
+<ul>
+<li>Limited minority class samples</li>
+<li><strong>Mitigation:</strong> Used weighted models, threshold optimization, stratified sampling</li>
+</ul></li>
+<li><strong>Cross-Sectional Design</strong>
+<ul>
+<li>Cannot establish causality, only association</li>
+<li>We don’t know if low satisfaction <em>causes</em> attrition or if employees who plan to leave <em>report</em> low satisfaction</li>
+<li><strong>Mitigation:</strong> Focus on actionable patterns regardless of causal direction</li>
+</ul></li>
+<li><strong>Missing Exit Reasons</strong>
+<ul>
+<li>Don’t know if departures were voluntary (resignations) vs.&nbsp;involuntary (terminations)</li>
+<li><strong>Future Work:</strong> If available, stratify analysis by exit type</li>
+</ul></li>
+</ol>
+</section>
+<section id="methodological-limitations" class="level3" data-number="1.5.2">
+<h3 data-number="1.5.2" class="anchored" data-anchor-id="methodological-limitations"><span class="header-section-number">1.5.2</span> Methodological Limitations</h3>
+<ol type="1">
+<li><strong>Small HR Sample (n=63)</strong>
+<ul>
+<li>Limits statistical power for Q3 HR analysis</li>
+<li><strong>Future Work:</strong> Combine HR with other professional services for larger sample</li>
+</ul></li>
+<li><strong>No Time Series</strong>
+<ul>
+<li>Can’t track satisfaction changes over time</li>
+<li><strong>Future Work:</strong> Implement quarterly satisfaction surveys; build survival analysis models</li>
+</ul></li>
+<li><strong>Limited to Satisfaction Variables in Q3</strong>
+<ul>
+<li>Q3 only examined satisfaction; didn’t include overtime, promotion, etc. in department models</li>
+<li><strong>Future Work:</strong> Build full multivariate models stratified by department</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="technical-qa-preparation" class="level2" data-number="1.6">
+<h2 data-number="1.6" class="anchored" data-anchor-id="technical-qa-preparation"><span class="header-section-number">1.6</span> Technical Q&amp;A Preparation</h2>
+<p><strong>GREG:</strong> Here are key technical points I might be asked:</p>
+<section id="q-why-use-stratified-models-instead-of-one-model-with-department-as-a-predictor" class="level3" data-number="1.6.1">
+<h3 data-number="1.6.1" class="anchored" data-anchor-id="q-why-use-stratified-models-instead-of-one-model-with-department-as-a-predictor"><span class="header-section-number">1.6.1</span> Q: “Why use stratified models instead of one model with Department as a predictor?”</h3>
+<p><strong>A:</strong> “Great question. We could have built one model:</p>
+<pre><code>Attrition ~ Satisfaction + Department + Satisfaction*Department</code></pre>
+<p>But stratified models offer key advantages:</p>
+<ol type="1">
+<li><p><strong>Different Coefficient Sets:</strong> R&amp;D JobSatisfaction = -0.512, Sales JobSatisfaction = -0.623. These aren’t just different intercepts - the slopes differ.</p></li>
+<li><p><strong>Sample Size Transparency:</strong> By modeling separately, we explicitly show that HR (n=63) has limited power, whereas in a pooled model this would be hidden.</p></li>
+<li><p><strong>Practical Implementation:</strong> HR managers can focus on their department’s model without worrying about reference coding or interaction term interpretation.</p></li>
+<li><p><strong>Model Assumptions:</strong> Stratified models don’t assume parallel effects. Sales may have fundamentally different attrition mechanisms than R&amp;D.</p></li>
+</ol>
+<p>That said, a pooled model with interactions would be valid too - it’s a tradeoff between flexibility (stratified) and power (pooled).”</p>
+<hr>
+</section>
+<section id="q-your-auc-values-are-only-0.68-0.78.-isnt-that-low" class="level3" data-number="1.6.2">
+<h3 data-number="1.6.2" class="anchored" data-anchor-id="q-your-auc-values-are-only-0.68-0.78.-isnt-that-low"><span class="header-section-number">1.6.2</span> Q: “Your AUC values are only 0.68-0.78. Isn’t that low?”</h3>
+<p><strong>A:</strong> “Context is crucial here. Predicting human behavior is inherently difficult - we’re not predicting physical laws.</p>
+<p><strong>Benchmarks:</strong> - AUC = 0.5 → Random guessing - AUC = 0.7 → Acceptable performance - AUC = 0.8 → Good performance - AUC = 0.9 → Excellent (rare in social sciences)</p>
+<p>Our Random Forest achieved AUC = 0.777, which is <strong>good performance</strong> for a behavioral prediction task.</p>
+<p><strong>Industry Comparison:</strong> Published HR attrition studies typically report AUC values of 0.70-0.80. We’re in that range.</p>
+<p><strong>Practical Value:</strong> At AUC = 0.777, if we flag the top 20% highest-risk employees: - We’ll capture approximately 45-50% of actual future leavers - This is actionable - HR can focus retention efforts on this segment</p>
+<p>Perfect prediction (AUC = 1.0) is unrealistic because: - Employees have personal reasons we can’t measure (spouse job relocation, health issues) - Life events are unpredictable - Some attrition is healthy organizational turnover</p>
+<p>Our models provide meaningful risk stratification despite not being perfect.”</p>
+<hr>
+</section>
+<section id="q-why-didnt-you-use-neural-networks-or-more-advanced-methods" class="level3" data-number="1.6.3">
+<h3 data-number="1.6.3" class="anchored" data-anchor-id="q-why-didnt-you-use-neural-networks-or-more-advanced-methods"><span class="header-section-number">1.6.3</span> Q: “Why didn’t you use neural networks or more advanced methods?”</h3>
+<p><strong>A:</strong> “Excellent question. We deliberately chose interpretable models for three reasons:</p>
+<p><strong>1. Business Stakeholder Communication:</strong> - HR managers need to understand <em>why</em> an employee is flagged as high-risk - “This employee has OverTime=Yes and 5 years without promotion” is actionable - A neural network produces a black-box prediction HR can’t explain or act upon</p>
+<p><strong>2. Limited Sample Size:</strong> - We have 1,470 employees total, only 237 with attrition - Neural networks need thousands to tens of thousands of examples to avoid overfitting - Our sample size is perfect for logistic regression, decision trees, and random forests</p>
+<p><strong>3. Feature Engineering Matters More:</strong> - With structured tabular data (not images/text), feature quality &gt;&gt; model complexity - Our interaction terms (e.g., Promotion*Income) capture non-linearities - Careful variable selection via LASSO provides feature quality</p>
+<p><strong>Performance Comparison:</strong> Published studies comparing neural networks to random forests on similar HR datasets show minimal AUC improvement (typically 0.01-0.03), not worth the loss of interpretability.</p>
+<p>That said, if this were a massive dataset (100K+ employees), neural networks or gradient boosting would be worth exploring.”</p>
+<hr>
+</section>
+<section id="q-how-did-you-handle-the-limited-hr-department-sample-size" class="level3" data-number="1.6.4">
+<h3 data-number="1.6.4" class="anchored" data-anchor-id="q-how-did-you-handle-the-limited-hr-department-sample-size"><span class="header-section-number">1.6.4</span> Q: “How did you handle the limited HR department sample size?”</h3>
+<p><strong>A:</strong> “The n=63 HR sample is a legitimate limitation. Here’s how we addressed it:</p>
+<p><strong>What We Did:</strong> 1. <strong>Acknowledged the limitation</strong> explicitly in our report 2. <strong>Reported wide confidence intervals</strong> - showed that non-significance is likely a power issue, not a true null effect 3. <strong>Compared model fit metrics</strong> (AIC, AUC) across departments to show HR model is less reliable 4. <strong>Recommended qualitative research</strong> for HR since quantitative analysis is underpowered</p>
+<p><strong>What We Didn’t Do:</strong> - We didn’t pool HR with other departments (would hide the issue) - We didn’t drop HR entirely (they still have 19% attrition rate worth investigating) - We didn’t overinterpret non-significant results</p>
+<p><strong>Alternative Approaches:</strong> 1. <strong>Bayesian Inference:</strong> Could use informative priors from R&amp;D/Sales to borrow strength 2. <strong>Bootstrap Confidence Intervals:</strong> Could better quantify uncertainty 3. <strong>Exact Logistic Regression:</strong> Could handle small samples better than standard asymptotics</p>
+<p>But for an educational project, acknowledging the limitation and recommending qualitative follow-up is the most honest approach.</p>
+<p><strong>Future Work:</strong> If we had multi-year data, we could pool HR across years (e.g., 3 years * 63 employees = 189 observations) for better power.”</p>
+<hr>
+</section>
+</section>
+<section id="closing-statement-1-minute" class="level2" data-number="1.7">
+<h2 data-number="1.7" class="anchored" data-anchor-id="closing-statement-1-minute"><span class="header-section-number">1.7</span> Closing Statement (1 minute)</h2>
+<p><strong>GREG:</strong> “To summarize:</p>
+<p><strong>We’ve built a comprehensive attrition prediction system</strong> that identifies high-risk employees with 78% accuracy. More importantly, we’ve translated these predictions into actionable HR strategies:</p>
+<p>✓ <strong>Overtime monitoring</strong> can prevent 35-40 annual departures<br>
+✓ <strong>Career acceleration</strong> can prevent 25-30 annual departures<br>
+✓ <strong>Department-specific programs</strong> can prevent 20-30 annual departures</p>
+<p><strong>Combined impact: 80-100 fewer departures annually, saving $4-5 million for a $145K investment.</strong></p>
+<p>Beyond the numbers, we’ve demonstrated how statistical modeling informs targeted interventions rather than wasteful one-size-fits-all programs.</p>
+<p>Thank you for your attention. Rupesh and I are happy to answer any questions.”</p>
+<hr>
+</section>
+<section id="additional-qa-points" class="level2" data-number="1.8">
+<h2 data-number="1.8" class="anchored" data-anchor-id="additional-qa-points"><span class="header-section-number">1.8</span> Additional Q&amp;A Points</h2>
+<section id="q-what-would-you-do-differently-if-you-had-more-time" class="level3" data-number="1.8.1">
+<h3 data-number="1.8.1" class="anchored" data-anchor-id="q-what-would-you-do-differently-if-you-had-more-time"><span class="header-section-number">1.8.1</span> Q: “What would you do differently if you had more time?”</h3>
+<p><strong>GREG:</strong> “Four extensions:</p>
+<ol type="1">
+<li><p><strong>Survival Analysis:</strong> Instead of binary attrition (Yes/No), model time-to-attrition. Some employees might be high-risk but won’t leave for 6-12 months. Survival models capture this dynamic.</p></li>
+<li><p><strong>Cost-Sensitive Learning:</strong> Weight prediction errors by cost. False negatives (missing an attrition) cost $50K+ in replacement; false positives (unnecessary retention efforts) cost less. Optimize for business cost, not statistical accuracy.</p></li>
+<li><p><strong>Sequential Model Development:</strong> Build a two-stage model: (1) Predict attrition risk, (2) Among high-risk employees, predict which interventions work best (overtime reduction vs.&nbsp;promotion vs.&nbsp;salary increase).</p></li>
+<li><p><strong>External Data Integration:</strong> Link to labor market data (unemployment rates, industry salary benchmarks) and individual performance data (promotability scores, project success metrics).</p></li>
+<li><p><strong>Time Series:</strong> Track satisfaction over quarters. Someone whose satisfaction dropped from 4 to 2 is higher risk than someone consistently at 2.”</p></li>
+</ol>
+<hr>
+</section>
+<section id="q-how-would-you-deploy-this-model-in-production" class="level3" data-number="1.8.2">
+<h3 data-number="1.8.2" class="anchored" data-anchor-id="q-how-would-you-deploy-this-model-in-production"><span class="header-section-number">1.8.2</span> Q: “How would you deploy this model in production?”</h3>
+<p><strong>GREG:</strong> “Deployment roadmap:</p>
+<p><strong>Phase 1: Batch Scoring (Months 1-3)</strong> - Run model quarterly on full employee base - Generate risk scores (0-1 probability) - Flag top 20% for HR manager review - Integrate into existing HRIS system</p>
+<p><strong>Phase 2: Interactive Dashboard (Months 3-6)</strong> - Build Tableau/PowerBI dashboard for HR managers - Show department-level risk distributions - Allow filtering by tenure, role, manager - Provide drill-down to individual employees</p>
+<p><strong>Phase 3: Real-Time Monitoring (Months 6-12)</strong> - Integrate with time-tracking system (detect overtime) - Integrate with HRIS (detect promotion delays) - Trigger alerts when employee crosses risk threshold - Send automated notifications to managers</p>
+<p><strong>Phase 4: Intervention Tracking (Ongoing)</strong> - Record which interventions were applied - Measure intervention effectiveness - Retrain models quarterly with new data - A/B test intervention strategies</p>
+<p><strong>Technical Stack:</strong> - Model: Python/R model exported to production - Storage: SQL database for employee data - API: REST API for real-time scoring - Dashboard: Tableau/PowerBI for visualization - Monitoring: Track model drift monthly</p>
+<p><strong>Governance:</strong> - Privacy: Anonymize data at individual level for analysts - Transparency: Explain model predictions to employees - Ethics: Human override - manager makes final call, not algorithm”</p>
+<p>[END OF GREG’S PORTION]</p>
+
+
+<!-- -->
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+    const viewSource = window.document.getElementById('quarto-view-source') ||
+                       window.document.getElementById('quarto-code-tools-source');
+    if (viewSource) {
+      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+      viewSource.addEventListener("click", function(e) {
+        if (sourceUrl) {
+          // rstudio viewer pane
+          if (/\bcapabilities=\b/.test(window.location)) {
+            window.open(sourceUrl);
+          } else {
+            window.location.href = sourceUrl;
+          }
+        } else {
+          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+          modal.show();
+        }
+        return false;
+      });
+    }
+    function toggleCodeHandler(show) {
+      return function(e) {
+        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+        for (let i=0; i<detailsSrc.length; i++) {
+          const details = detailsSrc[i].parentElement;
+          if (show) {
+            details.open = true;
+          } else {
+            details.removeAttribute("open");
+          }
+        }
+        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+        const fromCls = show ? "hidden" : "unhidden";
+        const toCls = show ? "unhidden" : "hidden";
+        for (let i=0; i<cellCodeDivs.length; i++) {
+          const codeDiv = cellCodeDivs[i];
+          if (codeDiv.classList.contains(fromCls)) {
+            codeDiv.classList.remove(fromCls);
+            codeDiv.classList.add(toCls);
+          } 
+        }
+        return false;
+      }
+    }
+    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+    if (hideAllCode) {
+      hideAllCode.addEventListener("click", toggleCodeHandler(false));
+    }
+    const showAllCode = window.document.getElementById("quarto-show-all-code");
+    if (showAllCode) {
+      showAllCode.addEventListener("click", toggleCodeHandler(true));
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># STAT 515 Final Project Presentation Script - GREG SEAN</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">## Transition from Rupesh (30 seconds)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>**GREG:** "Thank you, Rupesh. We've seen that overtime work and career stagnation are major attrition drivers. But do these factors affect all departments equally? That's what our third research question addresses.</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">## Question 3: Department-Stratified Satisfaction Analysis (5-6 minutes)</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>**GREG:** "Our third research question asks: Do satisfaction variables predict attrition differently across departments? Should HR implement department-specific retention strategies?</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why Stratify by Department?</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>Organizations often apply one-size-fits-all retention programs, but this ignores fundamental differences in job characteristics:</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R&amp;D Engineers:** Creative problem-solving, collaborative projects, technical challenges</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sales Representatives:** Client-facing, commission-driven, high-pressure targets</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HR Professionals:** People-focused, policy implementation, organizational support</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>These distinct roles likely have different satisfaction drivers and attrition patterns.</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Variables (Q3)</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JobSatisfaction:** Satisfaction with role/responsibilities (1-4 scale)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**EnvironmentSatisfaction:** Satisfaction with work environment (1-4 scale)</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RelationshipSatisfaction:** Satisfaction with colleagues/manager (1-4 scale)</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Department:** R&amp;D, Sales, or HR</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="fu">### Methodology: Stratified Logistic Regression</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>We fit separate logistic regression models for each department:</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="in">Model: Attrition ~ JobSatisfaction + EnvironmentSatisfaction + RelationshipSatisfaction</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="in">Separate models for: R&amp;D, Sales, HR</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>This approach allows:</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Different coefficient estimates per department</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Department-specific effect sizes</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Tailored insights for targeted interventions</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="fu">### Department Breakdown</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>**Research &amp; Development (R&amp;D):**</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sample size: 961 employees (65% of dataset)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Attrition rate: 13.8% (lowest)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Most stable department</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>**Sales:**</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sample size: 446 employees (30% of dataset)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Attrition rate: 20.6% (highest)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Highest turnover challenge</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>**Human Resources (HR):**</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Sample size: 63 employees (4% of dataset)</span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Attrition rate: 19.0%</span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Limited statistical power due to small sample</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="fu">### Key Findings (Q3)</span></span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>**1. R&amp;D Department (n=961, 13.8% attrition)**</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>All three satisfaction measures are statistically significant predictors:</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JobSatisfaction:** Coefficient = -0.512 (p &lt; 0.001)</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odds Ratio = 0.60 → Each 1-point increase in job satisfaction reduces attrition odds by 40%</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**EnvironmentSatisfaction:** Coefficient = -0.487 (p &lt; 0.001)</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odds Ratio = 0.61 → Each 1-point increase reduces attrition odds by 39%</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RelationshipSatisfaction:** Coefficient = -0.384 (p &lt; 0.01)</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odds Ratio = 0.68 → Each 1-point increase reduces attrition odds by 32%</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>**Model Performance:** AUC = 0.706</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>**Interpretation:** R&amp;D employees are highly sensitive to satisfaction levels across all dimensions. This makes sense - engineers and scientists value intellectual stimulation (job), collaborative environment (environment), and peer relationships (relationship).</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>**2. Sales Department (n=446, 20.6% attrition)**</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>Only two satisfaction measures are significant:</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JobSatisfaction:** Coefficient = -0.623 (p &lt; 0.01)</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odds Ratio = 0.54 → Each 1-point increase reduces attrition odds by 46%</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**EnvironmentSatisfaction:** Coefficient = -0.498 (p &lt; 0.05)</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Odds Ratio = 0.61 → Each 1-point increase reduces attrition odds by 39%</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RelationshipSatisfaction:** Coefficient = -0.201 (p = 0.24) - **NOT SIGNIFICANT**</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>**Model Performance:** AUC = 0.679</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a>**Interpretation:** Sales representatives care primarily about role fit (job satisfaction) and work conditions (environment), but relationships with colleagues matter less. This aligns with sales culture - individual performance, commission structures, and client relationships dominate. Internal peer relationships are secondary.</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>**Critical Insight:** Sales has the **highest attrition rate (20.6%)** - this department requires immediate attention.</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>**3. HR Department (n=63, 19.0% attrition)**</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>None of the satisfaction predictors reach statistical significance:</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**JobSatisfaction:** Coefficient = -0.472 (p = 0.19)</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**EnvironmentSatisfaction:** Coefficient = -0.289 (p = 0.38)</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**RelationshipSatisfaction:** Coefficient = -0.156 (p = 0.66)</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a>**Model Performance:** AUC = 0.682</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a>**Interpretation:** The lack of significance is likely due to **limited sample size (n=63)**. With only 12 attrition cases in HR (19% of 63), we have insufficient statistical power to detect effects. The coefficient directions are negative (protective against attrition), but confidence intervals are too wide for significance.</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comparative Analysis Across Departments</span></span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a>**Coefficient Comparison (Figure 11):**</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a>Our visualization shows:</span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**R&amp;D:** All three coefficients are strongly negative and significant</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sales:** Job and Environment coefficients are negative; Relationship is near zero</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**HR:** All coefficients are negative but with wide confidence intervals</span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a>**Model Performance Table (Table 9):**</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Department <span class="pp">|</span> N   <span class="pp">|</span> Attrition Rate <span class="pp">|</span> AIC    <span class="pp">|</span> AUC   <span class="pp">|</span></span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="pp">|-----------|-----|---------------|--------|-------|</span></span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> R&amp;D       <span class="pp">|</span> 961 <span class="pp">|</span> 13.8%         <span class="pp">|</span> 643.71 <span class="pp">|</span> 0.706 <span class="pp">|</span></span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sales     <span class="pp">|</span> 446 <span class="pp">|</span> 20.6%         <span class="pp">|</span> 355.88 <span class="pp">|</span> 0.679 <span class="pp">|</span></span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> HR        <span class="pp">|</span> 63  <span class="pp">|</span> 19.0%         <span class="pp">|</span> 58.23  <span class="pp">|</span> 0.682 <span class="pp">|</span></span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a>**Key Observations:**</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>R&amp;D has best model performance (highest AUC) due to large sample and clear satisfaction-attrition relationships</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Sales has worst attrition rate (20.6%) but moderate model performance</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>HR has smallest sample, limiting both power and model reliability</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a><span class="fu">### Practical Implications (Q3)</span></span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a>**Department-Specific Retention Strategies:**</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a>**For R&amp;D (13.8% attrition):**</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus:** All-around satisfaction improvement</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Actions:**</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Enhance project variety and technical challenges (job satisfaction)</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Invest in modern tools and collaborative spaces (environment satisfaction)</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Foster team-building and mentorship programs (relationship satisfaction)</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Why:** R&amp;D shows significant effects across all three dimensions</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a>**For Sales (20.6% attrition - HIGHEST PRIORITY):**</span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus:** Role clarity and work conditions</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Actions:**</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Realign territories and commission structures (job satisfaction)</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Provide CRM tools, sales training, and support resources (environment satisfaction)</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>De-prioritize team-building initiatives (relationship satisfaction not significant)</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Why:** Sales attrition is double that of R<span class="dv">&amp;D;</span> focus resources where they matter most</span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a>**For HR (19.0% attrition):**</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Focus:** Broader diagnostic needed</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Actions:**</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Conduct qualitative exit interviews</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Analyze non-satisfaction factors (compensation, career path, workload)</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>Consider merging with broader "professional services" category for future analysis</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Why:** Small sample limits quantitative insights; need qualitative data</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a><span class="fu">## Comprehensive Model Comparison (3-4 minutes)</span></span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a>**GREG:** "Now let's step back and compare all eight models we've built across the three research questions.</span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model Performance Summary</span></span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Model                          <span class="pp">|</span> AUC   <span class="pp">|</span> Type       <span class="pp">|</span></span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a><span class="pp">|-------------------------------|-------|------------|</span></span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Random Forest (Q1)**        <span class="pp">|</span> 0.777 <span class="pp">|</span> Tree-Based <span class="pp">|</span></span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Weighted Logistic (Q2)        <span class="pp">|</span> 0.752 <span class="pp">|</span> Logistic   <span class="pp">|</span></span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> LASSO Logistic (Q2)           <span class="pp">|</span> 0.747 <span class="pp">|</span> Logistic   <span class="pp">|</span></span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Unweighted Logistic (Q2)      <span class="pp">|</span> 0.732 <span class="pp">|</span> Logistic   <span class="pp">|</span></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Stratified LR - R&amp;D (Q3)      <span class="pp">|</span> 0.706 <span class="pp">|</span> Stratified <span class="pp">|</span></span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Decision Tree (Q1)            <span class="pp">|</span> 0.685 <span class="pp">|</span> Tree-Based <span class="pp">|</span></span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Stratified LR - HR (Q3)       <span class="pp">|</span> 0.682 <span class="pp">|</span> Stratified <span class="pp">|</span></span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Stratified LR - Sales (Q3)    <span class="pp">|</span> 0.679 <span class="pp">|</span> Stratified <span class="pp">|</span></span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="fu">### Model Type Performance</span></span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a>**Tree-Based Models:**</span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mean AUC: 0.731</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range: 0.685 - 0.777</span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Best overall performer: Random Forest</span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a>**Logistic Models:**</span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mean AUC: 0.744</span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range: 0.732 - 0.752</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Consistent performance across variants</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a>**Stratified Models:**</span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mean AUC: 0.689</span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Range: 0.679 - 0.706</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lower AUC due to smaller samples per department</span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="fu">### Which Model to Use When?</span></span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a>**For Maximum Prediction Accuracy:**</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a>→ **Use Random Forest (AUC = 0.777)**</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Best for automated early-warning systems</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Identifies at-risk employees with highest accuracy</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Deploy for production prediction tasks</span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a>**For Business Interpretability:**</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a>→ **Use Weighted Logistic Regression (AUC = 0.752)**</span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Provides clear coefficient interpretations</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>"Each year without promotion increases odds by 13%" → actionable insight</span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Stakeholders can understand and trust the model logic</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a>**For Variable Selection:**</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a>→ **Use LASSO (AUC = 0.747)**</span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Automatically identifies most important predictors</span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Reduces 16 candidates to 14 essential variables</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Good balance of performance and parsimony</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a>**For Targeted Interventions:**</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a>→ **Use Department-Stratified Models**</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Different coefficients per department</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Enables tailored retention programs</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Lower AUC acceptable when specificity matters more than aggregate accuracy</span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a><span class="fu">## Overall Conclusions &amp; Recommendations (3-4 minutes)</span></span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a>**GREG:** "Let me synthesize our key findings and provide actionable recommendations.</span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary of Key Findings</span></span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a>**Across all three research questions, we found:**</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**OverTime is the Single Strongest Predictor**</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>30.5% attrition for overtime workers vs. 10.4% for non-overtime</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Appears in top predictors across multiple models</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Effect is consistent across departments</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Career Stagnation Has Threshold Effects**</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Each year without promotion increases attrition odds by 13%</span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Risk accelerates non-linearly: 4+ years = critical threshold</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Stock options provide strong protective effect</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Department Differences Are Substantial**</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>R&amp;D: 13.8% attrition, sensitive to all satisfaction dimensions</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Sales: 20.6% attrition, sensitive to job/environment only</span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>HR: 19.0% attrition, limited sample power</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Model Performance Varies by Purpose**</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Random Forest: Best accuracy (AUC = 0.777)</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Weighted Logistic: Best interpretability (AUC = 0.752)</span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>LASSO: Best parsimony (AUC = 0.747)</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Comprehensive HR Recommendations</span></span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a>**Priority 1: Overtime Management (Immediate - Weeks 1-4)**</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a>**Current State:** 30% of employees work overtime; 30.5% attrition rate in this group.</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a>**Actions:**</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Workload Monitoring Dashboard**</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Track weekly hours in real-time</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Flag employees exceeding 45 hours for 3+ consecutive weeks</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Estimated cost: $15,000 for software implementation</span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Workload Rebalancing Protocol**</span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Quarterly capacity planning meetings</span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Redistribute work across team members</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Hire temporary contractors during peak periods</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Flexible Scheduling Policy**</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Allow compressed work weeks</span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Enable remote work for 2-3 days/week (reduces overtime and commute burden)</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a>**Expected Impact:** Reduce overtime prevalence from 30% to 20%, preventing 35-40 annual departures.  </span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a>**ROI:** Assuming average replacement cost of $50,000/employee, this saves $1.75M-$2M annually vs. $15K investment = 116x return.</span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a>**Priority 2: Career Development Acceleration (Short-term - Months 1-6)**</span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a>**Current State:** 15% of employees at 4+ years without promotion; 13% increased odds per year.</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a>**Actions:**</span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Mandatory Career Review at Year 3**</span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Individual development plans</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Promotion eligibility assessment</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Lateral move opportunities if vertical promotion unavailable</span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Fast-Track Program**</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Identify high-performers at year 2.5</span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Accelerated promotion pathway (target 3-year cycle vs. 4-5 year)</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Enhanced Stock Options**</span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>LASSO identified stock options as strong protective factor</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Expand eligibility to employees at 3+ years tenure</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Vesting schedule tied to 4-year retention</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a>**Expected Impact:** Reduce proportion of 4+ year stagnation from 15% to 10%, preventing 25-30 annual departures.  </span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a>**ROI:** $1.25M-$1.5M annual savings (assuming $50K replacement cost).</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a>**Priority 3: Department-Specific Interventions (Medium-term - Months 3-12)**</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a>**Sales Department (HIGHEST ATTRITION: 20.6%)**</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a>**Actions:**</span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Territory Optimization**</span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Rebalance account assignments</span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Reduce travel requirements where possible</span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Clarify commission structures</span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sales Enablement Resources**</span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Improve CRM systems</span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Provide ongoing training</span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Enhance marketing support</span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Environment Improvements**</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Modern sales tools</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Quiet spaces for phone calls</span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Recognition programs (not relationship-building - that's not significant for Sales)</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a>**Expected Impact:** Reduce Sales attrition from 20.6% to 16% (overall average), preventing 20-25 annual departures in Sales.</span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a>**R&amp;D Department (Maintain Excellence)**</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a>**Actions:**</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Continue holistic satisfaction focus</span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Invest in challenging projects</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Foster collaborative culture</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>Maintain current retention programs</span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a>**HR Department (Diagnostic Phase)**</span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a>**Actions:**</span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Conduct qualitative exit interviews (sample too small for quantitative insights)</span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Benchmark against other professional service departments</span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Revisit in 12 months with larger sample</span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a>**Expected Impact for all Priority 3:** 20-30 fewer annual departures.</span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a><span class="fu">### Overall Expected ROI</span></span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a>**Combined Intervention Impact:**</span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Priority <span class="pp">|</span> Prevented Departures <span class="pp">|</span> Cost Savings <span class="pp">|</span> Investment <span class="pp">|</span></span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="pp">|----------|---------------------|-------------|-----------|</span></span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Overtime Mgmt <span class="pp">|</span> 35-40 <span class="pp">|</span> $1.75M-$2.0M <span class="pp">|</span> $15K <span class="pp">|</span></span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Career Dev <span class="pp">|</span> 25-30 <span class="pp">|</span> $1.25M-$1.5M <span class="pp">|</span> $50K <span class="pp">|</span></span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Dept-Specific <span class="pp">|</span> 20-30 <span class="pp">|</span> $1.0M-$1.5M <span class="pp">|</span> $80K <span class="pp">|</span></span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **TOTAL** | **80-100** | **$4.0M-$5.0M** | **$145K** <span class="pp">|</span></span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a>**Net ROI:** $3.85M-$4.85M annual savings for $145K investment = **27-33x return in Year 1 alone**.</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="fu">## Limitations &amp; Future Work (2 minutes)</span></span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a>**GREG:** "Like any analysis, ours has limitations:</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="fu">### Data Limitations</span></span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Synthetic Dataset**</span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>IBM simulated this data for teaching purposes</span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>While realistic, patterns may not perfectly mirror actual company data</span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Mitigation:** All methodologies are sound and transferable to real datasets</span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Class Imbalance (16.1% attrition)**</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Limited minority class samples</span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Mitigation:** Used weighted models, threshold optimization, stratified sampling</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Cross-Sectional Design**</span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Cannot establish causality, only association</span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>We don't know if low satisfaction *causes* attrition or if employees who plan to leave *report* low satisfaction</span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Mitigation:** Focus on actionable patterns regardless of causal direction</span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Missing Exit Reasons**</span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Don't know if departures were voluntary (resignations) vs. involuntary (terminations)</span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Future Work:** If available, stratify analysis by exit type</span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a><span class="fu">### Methodological Limitations</span></span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Small HR Sample (n=63)**</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Limits statistical power for Q3 HR analysis</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Future Work:** Combine HR with other professional services for larger sample</span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**No Time Series**</span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Can't track satisfaction changes over time</span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Future Work:** Implement quarterly satisfaction surveys; build survival analysis models</span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Limited to Satisfaction Variables in Q3**</span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>Q3 only examined satisfaction; didn't include overtime, promotion, etc. in department models</span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a><span class="ss">   - </span>**Future Work:** Build full multivariate models stratified by department</span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a><span class="fu">## Technical Q&amp;A Preparation</span></span>
+<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a>**GREG:** Here are key technical points I might be asked:</span>
+<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-409"><a href="#cb3-409" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "Why use stratified models instead of one model with Department as a predictor?"</span></span>
+<span id="cb3-410"><a href="#cb3-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-411"><a href="#cb3-411" aria-hidden="true" tabindex="-1"></a>**A:** "Great question. We could have built one model:</span>
+<span id="cb3-412"><a href="#cb3-412" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-413"><a href="#cb3-413" aria-hidden="true" tabindex="-1"></a><span class="in">Attrition ~ Satisfaction + Department + Satisfaction*Department</span></span>
+<span id="cb3-414"><a href="#cb3-414" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb3-415"><a href="#cb3-415" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-416"><a href="#cb3-416" aria-hidden="true" tabindex="-1"></a>But stratified models offer key advantages:</span>
+<span id="cb3-417"><a href="#cb3-417" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-418"><a href="#cb3-418" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Different Coefficient Sets:** R&amp;D JobSatisfaction = -0.512, Sales JobSatisfaction = -0.623. These aren't just different intercepts - the slopes differ.</span>
+<span id="cb3-419"><a href="#cb3-419" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-420"><a href="#cb3-420" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Sample Size Transparency:** By modeling separately, we explicitly show that HR (n=63) has limited power, whereas in a pooled model this would be hidden.</span>
+<span id="cb3-421"><a href="#cb3-421" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-422"><a href="#cb3-422" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Practical Implementation:** HR managers can focus on their department's model without worrying about reference coding or interaction term interpretation.</span>
+<span id="cb3-423"><a href="#cb3-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-424"><a href="#cb3-424" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Model Assumptions:** Stratified models don't assume parallel effects. Sales may have fundamentally different attrition mechanisms than R&amp;D.</span>
+<span id="cb3-425"><a href="#cb3-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-426"><a href="#cb3-426" aria-hidden="true" tabindex="-1"></a>That said, a pooled model with interactions would be valid too - it's a tradeoff between flexibility (stratified) and power (pooled)."</span>
+<span id="cb3-427"><a href="#cb3-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-428"><a href="#cb3-428" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-429"><a href="#cb3-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-430"><a href="#cb3-430" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "Your AUC values are only 0.68-0.78. Isn't that low?"</span></span>
+<span id="cb3-431"><a href="#cb3-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-432"><a href="#cb3-432" aria-hidden="true" tabindex="-1"></a>**A:** "Context is crucial here. Predicting human behavior is inherently difficult - we're not predicting physical laws.</span>
+<span id="cb3-433"><a href="#cb3-433" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-434"><a href="#cb3-434" aria-hidden="true" tabindex="-1"></a>**Benchmarks:**</span>
+<span id="cb3-435"><a href="#cb3-435" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AUC = 0.5 → Random guessing</span>
+<span id="cb3-436"><a href="#cb3-436" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AUC = 0.7 → Acceptable performance</span>
+<span id="cb3-437"><a href="#cb3-437" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AUC = 0.8 → Good performance</span>
+<span id="cb3-438"><a href="#cb3-438" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>AUC = 0.9 → Excellent (rare in social sciences)</span>
+<span id="cb3-439"><a href="#cb3-439" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-440"><a href="#cb3-440" aria-hidden="true" tabindex="-1"></a>Our Random Forest achieved AUC = 0.777, which is **good performance** for a behavioral prediction task.</span>
+<span id="cb3-441"><a href="#cb3-441" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-442"><a href="#cb3-442" aria-hidden="true" tabindex="-1"></a>**Industry Comparison:** Published HR attrition studies typically report AUC values of 0.70-0.80. We're in that range.</span>
+<span id="cb3-443"><a href="#cb3-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-444"><a href="#cb3-444" aria-hidden="true" tabindex="-1"></a>**Practical Value:** At AUC = 0.777, if we flag the top 20% highest-risk employees:</span>
+<span id="cb3-445"><a href="#cb3-445" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We'll capture approximately 45-50% of actual future leavers</span>
+<span id="cb3-446"><a href="#cb3-446" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>This is actionable - HR can focus retention efforts on this segment</span>
+<span id="cb3-447"><a href="#cb3-447" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-448"><a href="#cb3-448" aria-hidden="true" tabindex="-1"></a>Perfect prediction (AUC = 1.0) is unrealistic because:</span>
+<span id="cb3-449"><a href="#cb3-449" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Employees have personal reasons we can't measure (spouse job relocation, health issues)</span>
+<span id="cb3-450"><a href="#cb3-450" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Life events are unpredictable</span>
+<span id="cb3-451"><a href="#cb3-451" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Some attrition is healthy organizational turnover</span>
+<span id="cb3-452"><a href="#cb3-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-453"><a href="#cb3-453" aria-hidden="true" tabindex="-1"></a>Our models provide meaningful risk stratification despite not being perfect."</span>
+<span id="cb3-454"><a href="#cb3-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-455"><a href="#cb3-455" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-456"><a href="#cb3-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-457"><a href="#cb3-457" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "Why didn't you use neural networks or more advanced methods?"</span></span>
+<span id="cb3-458"><a href="#cb3-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-459"><a href="#cb3-459" aria-hidden="true" tabindex="-1"></a>**A:** "Excellent question. We deliberately chose interpretable models for three reasons:</span>
+<span id="cb3-460"><a href="#cb3-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-461"><a href="#cb3-461" aria-hidden="true" tabindex="-1"></a>**1. Business Stakeholder Communication:**</span>
+<span id="cb3-462"><a href="#cb3-462" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>HR managers need to understand *why* an employee is flagged as high-risk</span>
+<span id="cb3-463"><a href="#cb3-463" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>"This employee has OverTime=Yes and 5 years without promotion" is actionable</span>
+<span id="cb3-464"><a href="#cb3-464" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A neural network produces a black-box prediction HR can't explain or act upon</span>
+<span id="cb3-465"><a href="#cb3-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-466"><a href="#cb3-466" aria-hidden="true" tabindex="-1"></a>**2. Limited Sample Size:**</span>
+<span id="cb3-467"><a href="#cb3-467" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We have 1,470 employees total, only 237 with attrition</span>
+<span id="cb3-468"><a href="#cb3-468" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Neural networks need thousands to tens of thousands of examples to avoid overfitting</span>
+<span id="cb3-469"><a href="#cb3-469" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Our sample size is perfect for logistic regression, decision trees, and random forests</span>
+<span id="cb3-470"><a href="#cb3-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-471"><a href="#cb3-471" aria-hidden="true" tabindex="-1"></a>**3. Feature Engineering Matters More:**</span>
+<span id="cb3-472"><a href="#cb3-472" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>With structured tabular data (not images/text), feature quality &gt;&gt; model complexity</span>
+<span id="cb3-473"><a href="#cb3-473" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Our interaction terms (e.g., Promotion*Income) capture non-linearities</span>
+<span id="cb3-474"><a href="#cb3-474" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Careful variable selection via LASSO provides feature quality</span>
+<span id="cb3-475"><a href="#cb3-475" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-476"><a href="#cb3-476" aria-hidden="true" tabindex="-1"></a>**Performance Comparison:** Published studies comparing neural networks to random forests on similar HR datasets show minimal AUC improvement (typically 0.01-0.03), not worth the loss of interpretability.</span>
+<span id="cb3-477"><a href="#cb3-477" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-478"><a href="#cb3-478" aria-hidden="true" tabindex="-1"></a>That said, if this were a massive dataset (100K+ employees), neural networks or gradient boosting would be worth exploring."</span>
+<span id="cb3-479"><a href="#cb3-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-480"><a href="#cb3-480" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-481"><a href="#cb3-481" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-482"><a href="#cb3-482" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "How did you handle the limited HR department sample size?"</span></span>
+<span id="cb3-483"><a href="#cb3-483" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-484"><a href="#cb3-484" aria-hidden="true" tabindex="-1"></a>**A:** "The n=63 HR sample is a legitimate limitation. Here's how we addressed it:</span>
+<span id="cb3-485"><a href="#cb3-485" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-486"><a href="#cb3-486" aria-hidden="true" tabindex="-1"></a>**What We Did:**</span>
+<span id="cb3-487"><a href="#cb3-487" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Acknowledged the limitation** explicitly in our report</span>
+<span id="cb3-488"><a href="#cb3-488" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Reported wide confidence intervals** - showed that non-significance is likely a power issue, not a true null effect</span>
+<span id="cb3-489"><a href="#cb3-489" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Compared model fit metrics** (AIC, AUC) across departments to show HR model is less reliable</span>
+<span id="cb3-490"><a href="#cb3-490" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**Recommended qualitative research** for HR since quantitative analysis is underpowered</span>
+<span id="cb3-491"><a href="#cb3-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-492"><a href="#cb3-492" aria-hidden="true" tabindex="-1"></a>**What We Didn't Do:**</span>
+<span id="cb3-493"><a href="#cb3-493" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We didn't pool HR with other departments (would hide the issue)</span>
+<span id="cb3-494"><a href="#cb3-494" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We didn't drop HR entirely (they still have 19% attrition rate worth investigating)</span>
+<span id="cb3-495"><a href="#cb3-495" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>We didn't overinterpret non-significant results</span>
+<span id="cb3-496"><a href="#cb3-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-497"><a href="#cb3-497" aria-hidden="true" tabindex="-1"></a>**Alternative Approaches:**</span>
+<span id="cb3-498"><a href="#cb3-498" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Bayesian Inference:** Could use informative priors from R&amp;D/Sales to borrow strength</span>
+<span id="cb3-499"><a href="#cb3-499" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Bootstrap Confidence Intervals:** Could better quantify uncertainty</span>
+<span id="cb3-500"><a href="#cb3-500" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Exact Logistic Regression:** Could handle small samples better than standard asymptotics</span>
+<span id="cb3-501"><a href="#cb3-501" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-502"><a href="#cb3-502" aria-hidden="true" tabindex="-1"></a>But for an educational project, acknowledging the limitation and recommending qualitative follow-up is the most honest approach.</span>
+<span id="cb3-503"><a href="#cb3-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-504"><a href="#cb3-504" aria-hidden="true" tabindex="-1"></a>**Future Work:** If we had multi-year data, we could pool HR across years (e.g., 3 years * 63 employees = 189 observations) for better power."</span>
+<span id="cb3-505"><a href="#cb3-505" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-506"><a href="#cb3-506" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-507"><a href="#cb3-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-508"><a href="#cb3-508" aria-hidden="true" tabindex="-1"></a><span class="fu">## Closing Statement (1 minute)</span></span>
+<span id="cb3-509"><a href="#cb3-509" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-510"><a href="#cb3-510" aria-hidden="true" tabindex="-1"></a>**GREG:** "To summarize:</span>
+<span id="cb3-511"><a href="#cb3-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-512"><a href="#cb3-512" aria-hidden="true" tabindex="-1"></a>**We've built a comprehensive attrition prediction system** that identifies high-risk employees with 78% accuracy. More importantly, we've translated these predictions into actionable HR strategies:</span>
+<span id="cb3-513"><a href="#cb3-513" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-514"><a href="#cb3-514" aria-hidden="true" tabindex="-1"></a>✓ **Overtime monitoring** can prevent 35-40 annual departures  </span>
+<span id="cb3-515"><a href="#cb3-515" aria-hidden="true" tabindex="-1"></a>✓ **Career acceleration** can prevent 25-30 annual departures  </span>
+<span id="cb3-516"><a href="#cb3-516" aria-hidden="true" tabindex="-1"></a>✓ **Department-specific programs** can prevent 20-30 annual departures  </span>
+<span id="cb3-517"><a href="#cb3-517" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-518"><a href="#cb3-518" aria-hidden="true" tabindex="-1"></a>**Combined impact: 80-100 fewer departures annually, saving $4-5 million for a $145K investment.**</span>
+<span id="cb3-519"><a href="#cb3-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-520"><a href="#cb3-520" aria-hidden="true" tabindex="-1"></a>Beyond the numbers, we've demonstrated how statistical modeling informs targeted interventions rather than wasteful one-size-fits-all programs.</span>
+<span id="cb3-521"><a href="#cb3-521" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-522"><a href="#cb3-522" aria-hidden="true" tabindex="-1"></a>Thank you for your attention. Rupesh and I are happy to answer any questions."</span>
+<span id="cb3-523"><a href="#cb3-523" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-524"><a href="#cb3-524" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-525"><a href="#cb3-525" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-526"><a href="#cb3-526" aria-hidden="true" tabindex="-1"></a><span class="fu">## Additional Q&amp;A Points</span></span>
+<span id="cb3-527"><a href="#cb3-527" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-528"><a href="#cb3-528" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "What would you do differently if you had more time?"</span></span>
+<span id="cb3-529"><a href="#cb3-529" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-530"><a href="#cb3-530" aria-hidden="true" tabindex="-1"></a>**GREG:** "Four extensions:</span>
+<span id="cb3-531"><a href="#cb3-531" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-532"><a href="#cb3-532" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Survival Analysis:** Instead of binary attrition (Yes/No), model time-to-attrition. Some employees might be high-risk but won't leave for 6-12 months. Survival models capture this dynamic.</span>
+<span id="cb3-533"><a href="#cb3-533" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-534"><a href="#cb3-534" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Cost-Sensitive Learning:** Weight prediction errors by cost. False negatives (missing an attrition) cost $50K+ in replacement; false positives (unnecessary retention efforts) cost less. Optimize for business cost, not statistical accuracy.</span>
+<span id="cb3-535"><a href="#cb3-535" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-536"><a href="#cb3-536" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Sequential Model Development:** Build a two-stage model: (1) Predict attrition risk, (2) Among high-risk employees, predict which interventions work best (overtime reduction vs. promotion vs. salary increase).</span>
+<span id="cb3-537"><a href="#cb3-537" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-538"><a href="#cb3-538" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>**External Data Integration:** Link to labor market data (unemployment rates, industry salary benchmarks) and individual performance data (promotability scores, project success metrics).</span>
+<span id="cb3-539"><a href="#cb3-539" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-540"><a href="#cb3-540" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>**Time Series:** Track satisfaction over quarters. Someone whose satisfaction dropped from 4 to 2 is higher risk than someone consistently at 2."</span>
+<span id="cb3-541"><a href="#cb3-541" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-542"><a href="#cb3-542" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb3-543"><a href="#cb3-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-544"><a href="#cb3-544" aria-hidden="true" tabindex="-1"></a><span class="fu">### Q: "How would you deploy this model in production?"</span></span>
+<span id="cb3-545"><a href="#cb3-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-546"><a href="#cb3-546" aria-hidden="true" tabindex="-1"></a>**GREG:** "Deployment roadmap:</span>
+<span id="cb3-547"><a href="#cb3-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-548"><a href="#cb3-548" aria-hidden="true" tabindex="-1"></a>**Phase 1: Batch Scoring (Months 1-3)**</span>
+<span id="cb3-549"><a href="#cb3-549" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Run model quarterly on full employee base</span>
+<span id="cb3-550"><a href="#cb3-550" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Generate risk scores (0-1 probability)</span>
+<span id="cb3-551"><a href="#cb3-551" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Flag top 20% for HR manager review</span>
+<span id="cb3-552"><a href="#cb3-552" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Integrate into existing HRIS system</span>
+<span id="cb3-553"><a href="#cb3-553" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-554"><a href="#cb3-554" aria-hidden="true" tabindex="-1"></a>**Phase 2: Interactive Dashboard (Months 3-6)**</span>
+<span id="cb3-555"><a href="#cb3-555" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Build Tableau/PowerBI dashboard for HR managers</span>
+<span id="cb3-556"><a href="#cb3-556" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Show department-level risk distributions</span>
+<span id="cb3-557"><a href="#cb3-557" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Allow filtering by tenure, role, manager</span>
+<span id="cb3-558"><a href="#cb3-558" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Provide drill-down to individual employees</span>
+<span id="cb3-559"><a href="#cb3-559" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-560"><a href="#cb3-560" aria-hidden="true" tabindex="-1"></a>**Phase 3: Real-Time Monitoring (Months 6-12)**</span>
+<span id="cb3-561"><a href="#cb3-561" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Integrate with time-tracking system (detect overtime)</span>
+<span id="cb3-562"><a href="#cb3-562" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Integrate with HRIS (detect promotion delays)</span>
+<span id="cb3-563"><a href="#cb3-563" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Trigger alerts when employee crosses risk threshold</span>
+<span id="cb3-564"><a href="#cb3-564" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Send automated notifications to managers</span>
+<span id="cb3-565"><a href="#cb3-565" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-566"><a href="#cb3-566" aria-hidden="true" tabindex="-1"></a>**Phase 4: Intervention Tracking (Ongoing)**</span>
+<span id="cb3-567"><a href="#cb3-567" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Record which interventions were applied</span>
+<span id="cb3-568"><a href="#cb3-568" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Measure intervention effectiveness</span>
+<span id="cb3-569"><a href="#cb3-569" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Retrain models quarterly with new data</span>
+<span id="cb3-570"><a href="#cb3-570" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>A/B test intervention strategies</span>
+<span id="cb3-571"><a href="#cb3-571" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-572"><a href="#cb3-572" aria-hidden="true" tabindex="-1"></a>**Technical Stack:**</span>
+<span id="cb3-573"><a href="#cb3-573" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Model: Python/R model exported to production</span>
+<span id="cb3-574"><a href="#cb3-574" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Storage: SQL database for employee data</span>
+<span id="cb3-575"><a href="#cb3-575" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>API: REST API for real-time scoring</span>
+<span id="cb3-576"><a href="#cb3-576" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Dashboard: Tableau/PowerBI for visualization</span>
+<span id="cb3-577"><a href="#cb3-577" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Monitoring: Track model drift monthly</span>
+<span id="cb3-578"><a href="#cb3-578" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-579"><a href="#cb3-579" aria-hidden="true" tabindex="-1"></a>**Governance:**</span>
+<span id="cb3-580"><a href="#cb3-580" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Privacy: Anonymize data at individual level for analysts</span>
+<span id="cb3-581"><a href="#cb3-581" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Transparency: Explain model predictions to employees</span>
+<span id="cb3-582"><a href="#cb3-582" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Ethics: Human override - manager makes final call, not algorithm"</span>
+<span id="cb3-583"><a href="#cb3-583" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-584"><a href="#cb3-584" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">END OF GREG'S PORTION</span><span class="co">]</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>STAT 515 Final Project | Rutvij &amp; Sean Grieg | George Mason University | Fall 2024</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "STAT 515 Final Project"
+  description: "IBM HR Employee Attrition Analysis"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: about.qmd
+        text: About
+      - href: projectcode.qmd
+        text: Project Code
+    right:
+      - icon: github
+        href: https://github.com
+        aria-label: GitHub
+  page-footer:
+    center: "STAT 515 Final Project | Rutvij & Sean Grieg | George Mason University | Fall 2024"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    code-fold: true
+    code-summary: "Show Code"
+    code-tools: true
+    code-copy: true
+    highlight-style: github
+    fig-width: 10
+    fig-height: 7
+    fig-align: center
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto

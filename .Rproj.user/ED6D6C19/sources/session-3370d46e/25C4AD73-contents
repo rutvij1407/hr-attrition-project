@@ -1,0 +1,1214 @@
+---
+title: "IBM HR Employee Attrition Analysis: Predictive Modeling for Workforce Retention"
+subtitle: "STAT 515 Final Project"
+author: "Rutvij & Sean Grieg"
+date: "`r Sys.Date()`"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    code-summary: "Show Code"
+    theme: cosmo
+    fig-width: 10
+    fig-height: 7
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| label: setup
+#| include: false
+
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(knitr)
+library(kableExtra)
+library(scales)
+library(corrplot)
+library(car)
+library(caret)
+library(rpart)
+library(rpart.plot)
+library(randomForest)
+library(glmnet)
+library(pROC)
+library(gridExtra)
+library(rlang)
+
+set.seed(515)
+
+possible_paths <- c(
+  "data/HR_Data.xlsx",
+  "HR_Data.xlsx",
+  "./data/HR_Data.xlsx",
+  "./HR_Data.xlsx"
+)
+
+data_path <- NULL
+for (p in possible_paths) {
+  if (file.exists(p)) {
+    data_path <- p
+    break
+  }
+}
+
+if (is.null(data_path)) {
+  cat("Current working directory:", getwd(), "\n")
+  cat("Files in current directory:", paste(list.files(), collapse = ", "), "\n")
+  if (dir.exists("data")) {
+    cat("Files in data folder:", paste(list.files("data"), collapse = ", "), "\n")
+  }
+  stop("HR_Data.xlsx not found. Please ensure it's in the project folder or 'data' subfolder.")
+}
+
+hr_data <- read_excel(data_path)
+cat("Data loaded successfully from:", data_path, "\n")
+```
+
+```{r standardize-columns}
+#| label: standardize-columns
+#| include: false
+
+# Robustly standardize column names across common IBM HR dataset variants
+resolve_col <- function(df, candidates) {
+  hit <- candidates[candidates %in% names(df)][1]
+  if (is.na(hit)) stop("Missing expected column. Tried: ", paste(candidates, collapse = ", "))
+  hit
+}
+
+col_map <- list(
+  Attrition                 = c("Attrition"),
+  OverTime                  = c("Over Time", "OverTime"),
+  DistanceFromHome          = c("Distance From Home", "DistanceFromHome"),
+  WorkLifeBalance           = c("Work Life Balance", "WorkLifeBalance"),
+  YearsAtCompany            = c("Years At Company", "YearsAtCompany"),
+  YearsSinceLastPromotion   = c("Years Since Last Promotion", "YearsSinceLastPromotion"),
+  YearsInCurrentRole        = c("Years In Current Role", "YearsInCurrentRole"),
+  MonthlyIncome             = c("Monthly Income", "MonthlyIncome"),
+  PercentSalaryHike         = c("Percent Salary Hike", "PercentSalaryHike"),
+  JobLevel                  = c("Job Level", "JobLevel"),
+  JobSatisfaction           = c("Job Satisfaction", "JobSatisfaction"),
+  EnvironmentSatisfaction   = c("Environment Satisfaction", "EnvironmentSatisfaction"),
+  RelationshipSatisfaction  = c("Relationship Satisfaction", "RelationshipSatisfaction"),
+  JobInvolvement            = c("Job Involvement", "JobInvolvement"),
+  YearsWithCurrManager      = c("Years With Curr Manager", "Years With Current Manager",
+                                "YearsWithCurrManager", "YearsWithCurrentManager"),
+  TotalWorkingYears         = c("Total Working Years", "TotalWorkingYears"),
+  NumCompaniesWorked        = c("Num Companies Worked", "NumCompaniesWorked"),
+  StockOptionLevel          = c("Stock Option Level", "StockOptionLevel"),
+  Age                       = c("Age"),
+  Department                = c("Department"),
+  BusinessTravel            = c("Business Travel", "BusinessTravel"),
+  MaritalStatus             = c("Marital Status", "MaritalStatus"),
+  Gender                    = c("Gender"),
+  JobRole                   = c("Job Role", "JobRole")
+)
+
+rename_list <- list()
+for (new_nm in names(col_map)) {
+  old_nm <- resolve_col(hr_data, col_map[[new_nm]])
+  if (old_nm != new_nm) rename_list[[new_nm]] <- old_nm
+}
+
+if (length(rename_list) > 0) {
+  hr_data <- hr_data %>% rename(!!!rename_list)
+}
+
+# Create binary features used throughout the report
+hr_data <- hr_data %>%
+  mutate(
+    Attrition_Binary = ifelse(Attrition == "Yes", 1, 0),
+    OverTime_Binary  = ifelse(OverTime  == "Yes", 1, 0)
+  )
+
+# Ensure key numeric columns are numeric (prevents glmnet/as.matrix issues)
+numeric_cols <- c(
+  "Age","MonthlyIncome","YearsAtCompany","DistanceFromHome","WorkLifeBalance",
+  "YearsSinceLastPromotion","YearsInCurrentRole","PercentSalaryHike","JobLevel",
+  "JobSatisfaction","EnvironmentSatisfaction","RelationshipSatisfaction",
+  "JobInvolvement","YearsWithCurrManager","TotalWorkingYears","NumCompaniesWorked",
+  "StockOptionLevel","Attrition_Binary","OverTime_Binary"
+)
+
+numeric_cols <- numeric_cols[numeric_cols %in% names(hr_data)]
+hr_data <- hr_data %>% mutate(across(all_of(numeric_cols), ~ suppressWarnings(as.numeric(.))))
+```
+
+# Executive Summary
+
+This comprehensive statistical analysis investigates the factors contributing to employee attrition using the IBM HR Analytics Employee Attrition & Performance dataset (n=`r nrow(hr_data)`). The study addresses three primary research questions using decision trees, random forests, logistic regression with interaction terms, LASSO variable selection, and stratified departmental analysis.
+
+**Key Findings (computed from models below):**
+
+1.  **Work-Life Imbalance:** OverTime is the strongest predictor of attrition. Decision tree analysis identifies high-risk profiles combining overtime work with low tenure.
+
+2.  **Career Stagnation & Compensation:** Years since last promotion increases attrition risk, and LASSO selects the strongest predictors across work-life, pay, and tenure.
+
+3.  **Department-Stratified Satisfaction:** Satisfaction variables show different predictive patterns across departments.
+
+```{r}
+n_employees <- nrow(hr_data)
+attrition_rate <- mean(hr_data$Attrition_Binary) * 100
+n_attrition <- sum(hr_data$Attrition_Binary)
+
+overtime_attrition <- hr_data %>%
+  filter(OverTime == "Yes") %>%
+  summarise(rate = mean(Attrition_Binary) * 100) %>%
+  pull(rate)
+
+attrition_table <- data.frame(
+  Metric = c(
+    "Total Employees",
+    "Overall Attrition Rate",
+    "Employees Who Left",
+    "Overtime (Yes) Attrition Rate"
+  ),
+  Value = c(
+    n_employees,
+    percent(attrition_rate/100, accuracy = 0.1),
+    n_attrition,
+    percent(overtime_attrition/100, accuracy = 0.1)
+  )
+)
+
+knitr::kable(
+  attrition_table,
+  col.names = c("Variable", "Value"),
+  align = c("l", "c")
+)
+```
+
+------------------------------------------------------------------------
+
+# Introduction
+
+Employee turnover represents one of the most significant challenges facing modern organizations. Industry estimates suggest replacing an employee can cost a substantial fraction of their annual salary when accounting for recruiting, training, and lost productivity. Understanding the factors that drive employees to leave enables targeted retention strategies before valuable talent departs.
+
+This analysis leverages the IBM HR Analytics dataset (realistic, simulated dataset commonly used for HR analytics). The dataset contains 1,470 employee records with 39 attributes spanning demographics, job characteristics, satisfaction metrics, and work-life balance indicators.
+
+## Research Questions
+
+Three primary research questions drove the analysis for this project. These research questions were deliberately chosen to address practical, actionable HR challenges that organizations face daily. Each question targets a distinct aspect of employee retention that HR departments can actively influence:
+
+1.  **Work-Life Imbalance & Attrition Risk Profiling:** How do work-life factors (OverTime, DistanceFromHome, WorkLifeBalance, YearsAtCompany) interact to predict attrition, and can we identify distinct "high-risk" profiles?
+
+2.  **Career Stagnation & Compensation Effects:** At what thresholds do career stagnation indicators (YearsSinceLastPromotion, YearsInCurrentRole) combined with compensation (MonthlyIncome, PercentSalaryHike) become critical predictors of attrition?
+
+3.  **Department-Stratified Satisfaction Analysis:** Does the predictive power of satisfaction variables (JobSatisfaction, EnvironmentSatisfaction, RelationshipSatisfaction) differ across departments, and which matters most within each?
+
+Question 1 was selected because work-life balance represents one of the most modifiable factors under organizational control. Unlike fixed demographics, companies can directly intervene through overtime policies, flexible scheduling, and remote work options. The interaction between overtime, commute distance, and tenure helps identify vulnerable employee segments before they reach the point of resignation. Finding the thresholds where there variables suggests employees are likely to leave the company could be useful. Companies could have a heads up of sorts that they could use to put effort into retaining their high-risk employees and/or reduce dependency on those employees and consinder hiring new employees.
+
+Question 2 addresses a critical yet often overlooked dimension: career progression and compensation alignment. Organizations frequently lose high-performing employees due to stagnant advancement opportunities. A position may be appealing at the start of an employees tenure, but insufficient opportunities for advancement can significantly influence employees wilingness to stay with their company. By identifying specific thresholds where promotion delays become critical, HR can implement proactive career development interventions.
+
+Question 3 recognizes that one-size-fits-all department agnostic retention strategies often fail. Different departments have unique cultures, work demands, and satisfaction drivers and potentially have significant differences in their attrition rates when all other variables are equal. Stratified analysis enables targeted interventions that respect departmental differences while optimizing resource allocation.
+
+## Dataset Description
+
+```{r data-overview}
+#| label: data-overview
+#| echo: false
+
+cat("Dataset Dimensions:", nrow(hr_data), "employees,", ncol(hr_data), "variables\n\n")
+
+variable_desc <- data.frame(
+  Variable = c("Attrition", "OverTime", "DistanceFromHome", "WorkLifeBalance",
+               "YearsAtCompany", "YearsSinceLastPromotion", "YearsInCurrentRole",
+               "MonthlyIncome", "PercentSalaryHike", "JobLevel",
+               "JobSatisfaction", "EnvironmentSatisfaction", "RelationshipSatisfaction",
+               "Department"),
+  Description = c("Employee left the company (Yes/No) - Response Variable",
+                  "Whether employee works overtime (Yes/No)",
+                  "Distance from home to workplace (miles)",
+                  "Work-life balance rating (1-4, higher = better)",
+                  "Total years at current company",
+                  "Years since last promotion",
+                  "Years in current role",
+                  "Monthly salary",
+                  "Percent salary increase",
+                  "Job level within company hierarchy (1-5)",
+                  "Job satisfaction rating (1-4)",
+                  "Environment satisfaction rating (1-4)",
+                  "Relationship satisfaction rating (1-4)",
+                  "Department"),
+  Question = c("All", "Q1", "Q1", "Q1", "Q1", "Q2", "Q2", "Q2", "Q2", "Q2", "Q3", "Q3", "Q3", "Q3")
+)
+
+kable(variable_desc, caption = "Table 1: Key Variables by Research Question",
+      col.names = c("Variable", "Description", "Research Q")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE, width = "25%") %>%
+  column_spec(2, width = "60%") %>%
+  column_spec(3, width = "15%")
+```
+
+Several key variables from the dataset were organized into three groups, corresponding to research questions. These variables each tested against the "Attrition" variable, the main response variable for the project.
+
+------------------------------------------------------------------------
+
+# Data Exploration and Summary Statistics
+
+## Class Imbalance Analysis
+
+```{r class-imbalance}
+#| label: class-imbalance
+#| fig-cap: "Figure 1: Attrition Distribution - Class Imbalance"
+
+attrition_dist <- hr_data %>%
+  count(Attrition) %>%
+  mutate(Percentage = n / sum(n) * 100)
+
+ggplot(attrition_dist, aes(x = Attrition, y = n, fill = Attrition)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = paste0(n, "\n(", round(Percentage, 1), "%)")),
+            vjust = -0.3, size = 5) +
+  labs(x = "Attrition Status",
+       y = "Number of Employees",
+       title = "Employee Attrition Distribution",
+       subtitle = paste0("Class imbalance: ", round(100 - attrition_rate, 1), "% No vs ", round(attrition_rate, 1), "% Yes")) +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14),
+        legend.position = "none") +
+  ylim(0, max(attrition_dist$n) * 1.15)
+
+# Class weights (used later for weighted learning)
+n_total <- nrow(hr_data)
+n_pos <- sum(hr_data$Attrition_Binary)
+n_neg <- n_total - n_pos
+weight_pos <- n_total / (2 * n_pos)
+weight_neg <- n_total / (2 * n_neg)
+
+cat("\nClass Weights for Imbalanced Learning:\n")
+cat("- Weight for Class 0 (No Attrition):", round(weight_neg, 4), "\n")
+cat("- Weight for Class 1 (Attrition):", round(weight_pos, 4), "\n")
+```
+
+The dataset exhibits a significant class imbalance in employee attrition, with 83.9% of employees (1,233) having "No" as their attrition value and only 16.1% (237) having "Yes." This imbalance can challenge predictive modeling, as algorithms may be biased toward the majority class. To mitigate this, class weights were calculated inversely proportional to class frequencies, assigning a weight of 0.5961 to the majority class (No attrition) and 3.1013 to the minority class (Yes attrition). These weights can be applied during model training to give greater importance to underrepresented cases, improving the model's ability to correctly identify employees at risk of leaving.
+
+## Attrition by Key Categorical Variables
+
+```{r categorical-eda}
+#| label: categorical-eda
+#| fig-cap: "Figure 2: Attrition Rates by Key Categorical Variables"
+
+overtime_summary <- hr_data %>%
+  group_by(OverTime) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Rate = mean(Attrition_Binary) * 100,
+    .groups = "drop"
+  )
+
+p1 <- ggplot(overtime_summary, aes(x = OverTime, y = Rate, fill = OverTime)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = paste0(round(Rate, 1), "%")), vjust = -0.3, size = 4) +
+  labs(x = "OverTime", y = "Attrition Rate (%)", title = "By OverTime Status") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(0, max(overtime_summary$Rate) * 1.25)
+
+dept_summary <- hr_data %>%
+  group_by(Department) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Rate = mean(Attrition_Binary) * 100,
+    .groups = "drop"
+  )
+
+p2 <- ggplot(dept_summary, aes(x = reorder(Department, -Rate), y = Rate, fill = Department)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = paste0(round(Rate, 1), "%")), vjust = -0.3, size = 4) +
+  labs(x = "Department", y = "Attrition Rate (%)", title = "By Department") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(0, max(dept_summary$Rate) * 1.25)
+
+marital_summary <- hr_data %>%
+  group_by(MaritalStatus) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Rate = mean(Attrition_Binary) * 100,
+    .groups = "drop"
+  )
+
+p3 <- ggplot(marital_summary, aes(x = reorder(MaritalStatus, -Rate), y = Rate, fill = MaritalStatus)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = paste0(round(Rate, 1), "%")), vjust = -0.3, size = 4) +
+  labs(x = "Marital Status", y = "Attrition Rate (%)", title = "By Marital Status") +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  ylim(0, max(marital_summary$Rate) * 1.25)
+
+travel_summary <- hr_data %>%
+  group_by(BusinessTravel) %>%
+  summarise(
+    Total = n(),
+    Attrition = sum(Attrition_Binary),
+    Rate = mean(Attrition_Binary) * 100,
+    .groups = "drop"
+  )
+
+p4 <- ggplot(travel_summary, aes(x = reorder(BusinessTravel, -Rate), y = Rate, fill = BusinessTravel)) +
+  geom_bar(stat = "identity", width = 0.6) +
+  geom_text(aes(label = paste0(round(Rate, 1), "%")), vjust = -0.3, size = 4) +
+  labs(x = "Business Travel", y = "Attrition Rate (%)", title = "By Business Travel") +
+  theme_minimal() +
+  theme(legend.position = "none",
+        axis.text.x = element_text(angle = 15, hjust = 1)) +
+  ylim(0, max(travel_summary$Rate) * 1.25)
+
+grid.arrange(p1, p2, p3, p4, ncol = 2)
+```
+
+The graphical analysis suggests that employee attrition varies substantially across several workplace and demographic factors. Employees who work overtime show a markedly higher attrition rate (30.5%) compared to those who do not work overtime (10.4%), indicating overtime may be a strong contributor to turnover. Attrition also differs by department, with Sales experiencing the highest rate (20.6%), followed by HR (19%), while Research & Development has the lowest attrition (13.8%). Marital status appears to be associated with attrition as well, as single employees have a notably higher turnover rate (25.5%) than married (12.5%) or divorced employees (10.1%). Finally, business travel frequency shows a clear pattern: employees who travel frequently have the highest attrition rate (24.9%), followed by those who travel rarely (15%), while non-traveling employees have the lowest attrition (8%). Overall, these graphs indicate that workload demands, job role characteristics, and personal circumstances may play important roles in employee turnover.
+
+## Chi-Square Tests for Categorical Associations
+
+```{r chi-square-tests}
+#| label: chi-square-tests
+
+chi_vars <- c("OverTime", "Department", "JobRole", "MaritalStatus", "BusinessTravel", "Gender")
+
+chi_results <- data.frame(
+  Variable = character(),
+  Chi_Square = numeric(),
+  df = integer(),
+  p_value = numeric(),
+  Cramers_V = numeric(),
+  stringsAsFactors = FALSE
+)
+
+for (var in chi_vars) {
+  tbl <- table(hr_data[[var]], hr_data$Attrition)
+  chi_test <- suppressWarnings(chisq.test(tbl))
+  n <- nrow(hr_data)
+  cramers_v <- sqrt(as.numeric(chi_test$statistic) / (n * (min(dim(tbl)) - 1)))
+  
+  chi_results <- rbind(chi_results, data.frame(
+    Variable = var,
+    Chi_Square = round(as.numeric(chi_test$statistic), 2),
+    df = as.integer(chi_test$parameter),
+    p_value = chi_test$p.value,
+    Cramers_V = round(cramers_v, 4)
+  ))
+}
+
+chi_results$Significance <- ifelse(chi_results$p_value < 0.001, "***",
+                                   ifelse(chi_results$p_value < 0.01, "**",
+                                          ifelse(chi_results$p_value < 0.05, "*", "")))
+
+kable(chi_results,
+      caption = "Table 2: Chi-Square Tests for Categorical Variables",
+      col.names = c("Variable", "χ²", "df", "p-value", "Cramer's V", "Sig.")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+OverTime and JobRole show the strongest relationships with attrition, both highly significant (p \< 0.001) and exhibiting moderate effect sizes, suggesting that employees' overtime status and job roles are meaningfully related to the likelihood of leaving the company. MaritalStatus and BusinessTravel are also highly significant, though with smaller effect sizes, indicating weaker but still relevant associations with attrition. Department shows a statistically significant relationship with attrition as well, but the small effect size suggests a limited practical impact. In contrast, Gender is not significantly associated with attrition, and its negligible effect size indicates that it is unlikely to influence whether an employee leaves the organization.
+
+## Numeric Variables Comparison
+
+```{r numeric-comparison}
+#| label: numeric-comparison
+#| fig-cap: "Figure 3: Distribution of Key Numeric Variables by Attrition Status"
+
+numeric_vars <- c("Age", "MonthlyIncome", "YearsAtCompany", "DistanceFromHome")
+
+plots <- lapply(numeric_vars, function(var) {
+  ggplot(hr_data, aes(x = Attrition, y = .data[[var]], fill = Attrition)) +
+    geom_boxplot(alpha = 0.7) +
+    labs(x = "Attrition", y = var, title = var) +
+    theme_minimal() +
+    theme(legend.position = "none",
+          plot.title = element_text(size = 11, face = "bold"))
+})
+
+grid.arrange(grobs = plots, ncol = 2)
+```
+
+When examining key numerical values in our analysis, we observe noticeable differences in attrition rates across employee categories. Attrition was more common among younger employees, those with lower monthly incomes, and employees with fewer years at the company. Additionally, employees who worked farther from home exhibited higher rates of attrition.
+
+```{r t-tests}
+#| label: t-tests
+
+t_test_vars <- c(
+  "Age", "MonthlyIncome", "DistanceFromHome", "YearsAtCompany",
+  "YearsInCurrentRole", "YearsSinceLastPromotion", "TotalWorkingYears",
+  "JobSatisfaction", "EnvironmentSatisfaction", "WorkLifeBalance"
+)
+
+t_results <- data.frame(
+  Variable = character(),
+  Mean_No = numeric(),
+  Mean_Yes = numeric(),
+  Difference = numeric(),
+  p_value = numeric(),
+  stringsAsFactors = FALSE
+)
+
+for (var in t_test_vars) {
+  t_test <- t.test(hr_data[[var]] ~ hr_data$Attrition)
+  t_results <- rbind(t_results, data.frame(
+    Variable = var,
+    Mean_No = round(t_test$estimate[1], 2),
+    Mean_Yes = round(t_test$estimate[2], 2),
+    Difference = round(t_test$estimate[2] - t_test$estimate[1], 2),
+    p_value = t_test$p.value
+  ))
+}
+
+t_results$Significance <- ifelse(t_results$p_value < 0.001, "***",
+                                 ifelse(t_results$p_value < 0.01, "**",
+                                        ifelse(t_results$p_value < 0.05, "*", "")))
+
+kable(t_results,
+      caption = "Table 3: T-Tests Comparing Numeric Variables by Attrition Status",
+      col.names = c("Variable", "Mean (No)", "Mean (Yes)", "Difference", "p-value", "Sig.")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+------------------------------------------------------------------------
+
+# Research Question 1
+
+## Work-Life Imbalance & Attrition Risk Profiling {.unnumbered}
+
+*How do work-life factors (OverTime, DistanceFromHome, WorkLifeBalance, YearsAtCompany) interact to predict employee attrition, and can we identify distinct "high-risk" employee profiles using these variables?*
+
+## Decision Tree Model
+
+```{r q1-decision-tree}
+#| label: q1-decision-tree
+#| fig-cap: "Figure 4: Decision Tree for Work-Life Attrition Risk Profiling"
+
+q1_data <- hr_data %>%
+  select(Attrition_Binary, OverTime_Binary, DistanceFromHome, WorkLifeBalance, YearsAtCompany)
+
+set.seed(515)
+train_idx <- createDataPartition(q1_data$Attrition_Binary, p = 0.7, list = FALSE)
+train_data <- q1_data[train_idx, ]
+test_data <- q1_data[-train_idx, ]
+
+dt_model <- rpart(
+  Attrition_Binary ~ OverTime_Binary + DistanceFromHome + WorkLifeBalance + YearsAtCompany,
+  data = train_data,
+  method = "class",
+  parms = list(prior = c(0.5, 0.5)),
+  control = rpart.control(maxdepth = 4, minsplit = 50, cp = 0.01)
+)
+
+rpart.plot(dt_model,
+           type = 4,
+           extra = 104,
+           fallen.leaves = TRUE,
+           main = "Decision Tree: Work-Life Factors Predicting Attrition")
+```
+
+```{r dt-importance}
+#| label: dt-importance
+#| fig-cap: "Figure 5: Decision Tree Feature Importance"
+
+dt_importance <- data.frame(
+  Variable = names(dt_model$variable.importance),
+  Importance = dt_model$variable.importance / sum(dt_model$variable.importance)
+)
+
+ggplot(dt_importance, aes(x = reorder(Variable, Importance), y = Importance, fill = Importance)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Variable", y = "Relative Importance",
+       title = "Decision Tree Feature Importance",
+       subtitle = "Work-Life Factors") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14),
+        legend.position = "none")
+```
+
+```{r dt-performance}
+#| label: dt-performance
+
+pred_dt <- predict(dt_model, test_data, type = "class")
+pred_prob_dt <- predict(dt_model, test_data, type = "prob")[, 2]
+
+cm_dt <- confusionMatrix(factor(pred_dt), factor(test_data$Attrition_Binary))
+print(cm_dt)
+
+roc_dt <- roc(test_data$Attrition_Binary, pred_prob_dt, quiet = TRUE)
+cat("\nDecision Tree AUC-ROC:", round(auc(roc_dt), 4), "\n")
+```
+
+## Logistic Regression with Interaction Terms
+
+```{r q1-logistic}
+#| label: q1-logistic
+
+hr_q1 <- hr_data %>%
+  mutate(
+    OT_x_WLB = OverTime_Binary * WorkLifeBalance,
+    OT_x_Distance = OverTime_Binary * DistanceFromHome,
+    OT_x_YearsAtCompany = OverTime_Binary * YearsAtCompany
+  )
+
+logit_q1 <- glm(
+  Attrition_Binary ~ OverTime_Binary + DistanceFromHome + WorkLifeBalance +
+    YearsAtCompany + OT_x_WLB + OT_x_Distance + OT_x_YearsAtCompany,
+  data = hr_q1,
+  family = binomial(link = "logit")
+)
+
+summary(logit_q1)
+```
+
+```{r q1-odds-ratios}
+#| label: q1-odds-ratios
+
+or_ci <- suppressMessages(confint(logit_q1))
+
+or_table <- data.frame(
+  Variable = names(coef(logit_q1)),
+  Coefficient = coef(logit_q1),
+  OR = exp(coef(logit_q1)),
+  CI_Lower = exp(or_ci[, 1]),
+  CI_Upper = exp(or_ci[, 2]),
+  p_value = summary(logit_q1)$coefficients[, 4]
+)
+
+or_table$Significance <- ifelse(or_table$p_value < 0.001, "***",
+                                ifelse(or_table$p_value < 0.01, "**",
+                                       ifelse(or_table$p_value < 0.05, "*", "")))
+
+kable(or_table[-1, ],
+      digits = 4,
+      caption = "Table 4: Logistic Regression Odds Ratios (Q1)",
+      col.names = c("Variable", "β", "OR", "95% CI Lower", "95% CI Upper", "p-value", "Sig."),
+      row.names = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+## Random Forest Model
+
+```{r q1-random-forest}
+#| label: q1-random-forest
+#| fig-cap: "Figure 6: Random Forest Variable Importance"
+
+rf_model <- randomForest(
+  factor(Attrition_Binary) ~ OverTime_Binary + DistanceFromHome + WorkLifeBalance + YearsAtCompany,
+  data = train_data,
+  ntree = 500,
+  mtry = 2,
+  classwt = c(1, 3),
+  importance = TRUE
+)
+
+importance_df <- data.frame(
+  Variable = rownames(importance(rf_model)),
+  MeanDecreaseGini = importance(rf_model)[, "MeanDecreaseGini"]
+)
+
+ggplot(importance_df, aes(x = reorder(Variable, MeanDecreaseGini), y = MeanDecreaseGini, fill = MeanDecreaseGini)) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Variable", y = "Mean Decrease in Gini",
+       title = "Random Forest Variable Importance",
+       subtitle = "Work-Life Factors") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14),
+        legend.position = "none")
+```
+
+```{r q1-roc-comparison}
+#| label: q1-roc-comparison
+#| fig-cap: "Figure 7: ROC Curves Comparison - Q1 Models"
+
+pred_prob_rf <- predict(rf_model, test_data, type = "prob")[, 2]
+roc_rf <- roc(test_data$Attrition_Binary, pred_prob_rf, quiet = TRUE)
+
+plot(roc_dt, col = "#2E86AB", lwd = 2, main = "ROC Curves - Q1: Work-Life Models")
+plot(roc_rf, col = "#E94F37", lwd = 2, add = TRUE)
+legend("bottomright",
+       legend = c(paste("Decision Tree (AUC =", round(auc(roc_dt), 3), ")"),
+                  paste("Random Forest (AUC =", round(auc(roc_rf), 3), ")")),
+       col = c("#2E86AB", "#E94F37"),
+       lwd = 2)
+```
+
+------------------------------------------------------------------------
+
+# Research Question 2
+
+## Career Stagnation & Compensation Effects {.unnumbered}
+
+*At what thresholds do career stagnation indicators (YearsSinceLastPromotion, YearsInCurrentRole) combined with compensation factors (MonthlyIncome, PercentSalaryHike) become critical predictors of attrition?*
+
+## Train/Test Split + Weighted Logistic Regression
+
+```{r q2-weighted-logit}
+#| label: q2-weighted-logit
+
+set.seed(515)
+train_idx2 <- createDataPartition(hr_data$Attrition_Binary, p = 0.7, list = FALSE)
+train_q2 <- hr_data[train_idx2, ]
+test_q2 <- hr_data[-train_idx2, ]
+
+n_total2 <- nrow(train_q2)
+n_pos2 <- sum(train_q2$Attrition_Binary)
+n_neg2 <- n_total2 - n_pos2
+w_pos2 <- n_total2 / (2 * n_pos2)
+w_neg2 <- n_total2 / (2 * n_neg2)
+
+weights_q2 <- ifelse(train_q2$Attrition_Binary == 1, w_pos2, w_neg2)
+
+logit_q2 <- suppressWarnings(glm(
+  Attrition_Binary ~ YearsSinceLastPromotion + YearsInCurrentRole +
+    MonthlyIncome + PercentSalaryHike + JobLevel,
+  data = train_q2,
+  family = binomial(),
+  weights = weights_q2
+))
+
+summary(logit_q2)
+```
+
+```{r q2-odds-ratios}
+#| label: q2-odds-ratios
+
+or_ci_q2 <- suppressMessages(confint(logit_q2))
+
+or_table_q2 <- data.frame(
+  Variable = names(coef(logit_q2)),
+  Coefficient = coef(logit_q2),
+  OR = exp(coef(logit_q2)),
+  CI_Lower = exp(or_ci_q2[, 1]),
+  CI_Upper = exp(or_ci_q2[, 2]),
+  p_value = summary(logit_q2)$coefficients[, 4]
+)
+
+or_table_q2$Significance <- ifelse(or_table_q2$p_value < 0.001, "***",
+                                   ifelse(or_table_q2$p_value < 0.01, "**",
+                                          ifelse(or_table_q2$p_value < 0.05, "*", "")))
+
+kable(or_table_q2[-1, ],
+      digits = 4,
+      caption = "Table 5: Weighted Logistic Regression Odds Ratios (Q2)",
+      col.names = c("Variable", "β", "OR", "95% CI Lower", "95% CI Upper", "p-value", "Sig."),
+      row.names = FALSE) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+## LASSO Variable Selection
+
+```{r q2-lasso}
+#| label: q2-lasso
+#| fig-cap: "Figure 8: LASSO Cross-Validation"
+
+lasso_vars <- c(
+  "YearsSinceLastPromotion", "YearsInCurrentRole", "MonthlyIncome",
+  "PercentSalaryHike", "JobLevel", "Age", "TotalWorkingYears",
+  "YearsAtCompany", "YearsWithCurrManager", "DistanceFromHome",
+  "JobSatisfaction", "EnvironmentSatisfaction", "WorkLifeBalance",
+  "OverTime_Binary", "NumCompaniesWorked", "StockOptionLevel"
+)
+
+X_lasso <- as.matrix(hr_data[, lasso_vars])
+y_lasso <- hr_data$Attrition_Binary
+
+cv_lasso <- cv.glmnet(X_lasso, y_lasso, family = "binomial", alpha = 1, nfolds = 10)
+plot(cv_lasso, main = "LASSO Cross-Validation")
+```
+
+Lasso varriable selection was used to determine that the model would use 15 variables to achieve a balance in model accuracy and complexity.
+
+```{r lasso-coefficients}
+#| label: lasso-coefficients
+#| fig-cap: "Figure 9: LASSO Selected Variable Coefficients"
+
+lasso_coefs <- coef(cv_lasso, s = "lambda.min")
+
+lasso_df <- data.frame(
+  Variable = rownames(lasso_coefs)[-1],
+  Coefficient = as.vector(lasso_coefs)[-1]
+) %>%
+  filter(abs(Coefficient) > 0.001) %>%
+  arrange(desc(abs(Coefficient)))
+
+ggplot(lasso_df, aes(x = reorder(Variable, Coefficient), y = Coefficient,
+                     fill = ifelse(Coefficient > 0, "Positive", "Negative"))) +
+  geom_bar(stat = "identity") +
+  coord_flip() +
+  labs(x = "Variable", y = "LASSO Coefficient",
+       title = "LASSO Variable Selection",
+       subtitle = paste("Variables with non-zero coefficients at λ.min =", round(cv_lasso$lambda.min, 4)),
+       fill = "Effect") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14))
+```
+
+Coefficient estimation was performed on the 15 variables selected and the binary variable "overtime" prove to be a the most significant predictive variable by far.
+
+```{r lasso-table}
+#| label: lasso-table
+
+kable(lasso_df,
+      digits = 4,
+      caption = "Table 6: LASSO Selected Variables",
+      col.names = c("Variable", "Coefficient")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+The lasso regression results indicate that OverTime_Binary is the most influential predictor, with a strong positive coefficient (1.63), suggesting that working overtime substantially increases the likelihood of the outcome. In contrast, several job satisfaction–related variables, including StockOptionLevel, EnvironmentSatisfaction, JobSatisfaction, and WorkLifeBalance, exhibit moderate negative coefficients, indicating that higher satisfaction and better benefits are associated with a reduced likelihood of the outcome. Variables related to career progression and employment history show weaker effects: YearsSinceLastPromotion and NumCompaniesWorked are positively associated with the outcome, while YearsInCurrentRole, YearsWithCurrManager, and JobLevel display small negative relationships. Demographic and tenure-related factors such as Age, YearsAtCompany, TotalWorkingYears, and DistanceFromHome have very small coefficients, suggesting minimal influence. Overall, the model highlights overtime work and job satisfaction as the primary drivers of the outcome, with other variables contributing only marginally.
+
+```{r q2-lasso-test-roc}
+#| label: q2-lasso-test-roc
+#| include: false
+
+# Evaluate LASSO on the SAME Q2 train/test split so roc_lasso exists
+x_train <- as.matrix(train_q2[, lasso_vars])
+y_train <- train_q2$Attrition_Binary
+
+x_test <- as.matrix(test_q2[, lasso_vars])
+y_test <- test_q2$Attrition_Binary
+
+set.seed(515)
+cv_lasso_q2 <- cv.glmnet(x_train, y_train, family = "binomial", alpha = 1, nfolds = 10)
+
+pred_lasso <- predict(cv_lasso_q2, newx = x_test, s = "lambda.min", type = "response")
+roc_lasso <- roc(y_test, as.vector(pred_lasso), quiet = TRUE)
+```
+
+## ROC-AUC and Threshold Analysis (Test Set)
+
+```{r q2-roc-threshold}
+#| label: q2-roc-threshold
+#| fig-cap: "Figure 10: ROC Curve and Threshold Analysis (Test Set)"
+
+pred_probs_q2 <- predict(logit_q2, newdata = test_q2, type = "response")
+roc_q2 <- roc(test_q2$Attrition_Binary, pred_probs_q2, quiet = TRUE)
+
+coords_best <- coords(roc_q2, "best", ret = c("threshold", "sensitivity", "specificity"))
+
+par(mfrow = c(1, 2))
+
+plot(roc_q2, lwd = 2, main = "ROC Curve - Career Stagnation Model (Test Set)")
+points(coords_best$specificity, coords_best$sensitivity, pch = 19, cex = 1.5)
+text(coords_best$specificity - 0.1, coords_best$sensitivity + 0.05,
+     paste("Optimal:", round(coords_best$threshold, 3)))
+legend("bottomright", paste("AUC =", round(auc(roc_q2), 3)), bty = "n")
+
+thresholds <- seq(0.1, 0.9, by = 0.05)
+metrics <- sapply(thresholds, function(t) {
+  pred <- ifelse(pred_probs_q2 >= t, 1, 0)
+  c(Sensitivity = mean(pred[test_q2$Attrition_Binary == 1] == 1),
+    Specificity = mean(pred[test_q2$Attrition_Binary == 0] == 0),
+    Accuracy = mean(pred == test_q2$Attrition_Binary))
+})
+
+plot(thresholds, metrics["Sensitivity", ], type = "l", lwd = 2, col = "#2E86AB",
+     ylim = c(0, 1), xlab = "Threshold", ylab = "Metric Value",
+     main = "Classification Metrics vs Threshold")
+lines(thresholds, metrics["Specificity", ], lwd = 2, col = "#E94F37")
+lines(thresholds, metrics["Accuracy", ], lwd = 2, col = "#6A994E")
+abline(v = coords_best$threshold, lty = 2)
+legend("right", c("Sensitivity", "Specificity", "Accuracy"), 
+       col = c("#2E86AB", "#E94F37", "#6A994E"), lwd = 2)
+
+par(mfrow = c(1, 1))
+```
+
+```{r threshold-table}
+#| label: threshold-table
+
+threshold_results <- data.frame(
+  Threshold = c(0.1, 0.2, 0.3, 0.4, 0.5, round(coords_best$threshold, 3)),
+  Sensitivity = numeric(6),
+  Specificity = numeric(6),
+  Accuracy = numeric(6)
+)
+
+for (i in 1:6) {
+  t <- threshold_results$Threshold[i]
+  pred <- ifelse(pred_probs_q2 >= t, 1, 0)
+  threshold_results$Sensitivity[i] <- round(mean(pred[test_q2$Attrition_Binary == 1] == 1), 3)
+  threshold_results$Specificity[i] <- round(mean(pred[test_q2$Attrition_Binary == 0] == 0), 3)
+  threshold_results$Accuracy[i] <- round(mean(pred == test_q2$Attrition_Binary), 3)
+}
+
+threshold_results$Note <- c("", "", "", "", "", "← Optimal (Youden's J)")
+
+kable(threshold_results,
+      caption = "Table 7: Classification Performance at Different Thresholds (Test Set)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  row_spec(6, bold = TRUE, background = "#d4edda")
+```
+
+------------------------------------------------------------------------
+
+# Research Question 3
+
+## Department-Stratified Satisfaction Analysis {.unnumbered}
+
+*Does the predictive power of employee satisfaction variables differ across departments?*
+
+## VIF Analysis for Multicollinearity
+
+```{r q3-vif}
+#| label: q3-vif
+
+vif_model <- lm(
+  Attrition_Binary ~ JobSatisfaction + EnvironmentSatisfaction + RelationshipSatisfaction +
+    WorkLifeBalance + JobInvolvement + MonthlyIncome + Age,
+  data = hr_data
+)
+
+vif_vals <- vif(vif_model)
+vif_results <- data.frame(
+  Variable = names(vif_vals),
+  VIF = round(as.numeric(vif_vals), 4)
+)
+vif_results$Status <- ifelse(vif_results$VIF < 5, "OK",
+                              ifelse(vif_results$VIF < 10, "Moderate", "HIGH"))
+
+kable(vif_results,
+      caption = "Table 8: Variance Inflation Factors (VIF)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+For question 3, VIF analysis was preformed on the three satisfaction variables focused on by the question. The variables WorkLifeBalance, JobInvolvement, MonthlyIncome, and Age were added as "control" variables because they can overlap with satisfaction and are also related to attrition. Running VIF on this combined set checks whether satisfaction is redundant with these common drivers. Since all VIF values are close to 1, multicollinearity is not a concern and the satisfaction coefficients remain interpretable.
+
+## Stratified Logistic Regression by Department
+
+```{r q3-stratified}
+#| label: q3-stratified
+
+departments <- sort(unique(as.character(hr_data$Department)))
+dept_results <- list()
+
+for (dept in departments) {
+  df_dept <- hr_data %>% filter(Department == dept)
+  
+  model_dept <- glm(
+    Attrition_Binary ~ JobSatisfaction + EnvironmentSatisfaction + RelationshipSatisfaction,
+    data = df_dept,
+    family = binomial()
+  )
+  
+  dept_results[[dept]] <- list(
+    n = nrow(df_dept),
+    attrition_rate = mean(df_dept$Attrition_Binary) * 100,
+    model = model_dept,
+    aic = AIC(model_dept)
+  )
+  
+  cat("\n========================================\n")
+  cat("DEPARTMENT:", dept, "\n")
+  cat("========================================\n")
+  cat("Sample Size:", dept_results[[dept]]$n, "\n")
+  cat("Attrition Rate:", round(dept_results[[dept]]$attrition_rate, 1), "%\n")
+  print(summary(model_dept))
+}
+```
+
+```{r q3-coefficient-comparison}
+#| label: q3-coefficient-comparison
+#| fig-cap: "Figure 11: Satisfaction Variable Coefficients by Department"
+
+coef_comparison <- data.frame(
+  Department = character(),
+  Variable = character(),
+  Coefficient = numeric(),
+  OR = numeric(),
+  p_value = numeric(),
+  stringsAsFactors = FALSE
+)
+
+satisfaction_vars <- c("JobSatisfaction", "EnvironmentSatisfaction", "RelationshipSatisfaction")
+
+for (dept in names(dept_results)) {
+  model <- dept_results[[dept]]$model
+  for (var in satisfaction_vars) {
+    coef_comparison <- rbind(coef_comparison, data.frame(
+      Department = dept,
+      Variable = var,
+      Coefficient = coef(model)[var],
+      OR = exp(coef(model)[var]),
+      p_value = summary(model)$coefficients[var, 4]
+    ))
+  }
+}
+
+ggplot(coef_comparison, aes(x = Variable, y = Coefficient, fill = Department)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(x = "Satisfaction Variable", y = "Coefficient (Log-Odds)",
+       title = "Satisfaction Variable Effects by Department",
+       subtitle = "Negative coefficients indicate protective effect against attrition") +
+  theme_minimal() +
+  theme(plot.title = element_text(face = "bold", size = 14),
+        axis.text.x = element_text(angle = 15, hjust = 1))
+```
+
+```{r q3-performance-comparison}
+#| label: q3-performance-comparison
+#| fig-cap: "Figure 12: Model Performance by Department"
+
+dept_performance <- data.frame(
+  Department = character(),
+  N = integer(),
+  Attrition_Rate = numeric(),
+  AIC = numeric(),
+  AUC = numeric(),
+  stringsAsFactors = FALSE
+)
+
+for (dept in names(dept_results)) {
+  df_dept <- hr_data %>% filter(Department == dept)
+  model <- dept_results[[dept]]$model
+  
+  pred_probs <- predict(model, type = "response")
+  roc_dept <- roc(df_dept$Attrition_Binary, pred_probs, quiet = TRUE)
+  
+  dept_performance <- rbind(dept_performance, data.frame(
+    Department = dept,
+    N = dept_results[[dept]]$n,
+    Attrition_Rate = round(dept_results[[dept]]$attrition_rate, 1),
+    AIC = round(dept_results[[dept]]$aic, 2),
+    AUC = round(auc(roc_dept), 3)
+  ))
+}
+
+kable(dept_performance,
+      caption = "Table 9: Department Model Comparison",
+      col.names = c("Department", "N", "Attrition Rate (%)", "AIC", "AUC")) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"), full_width = FALSE) %>%
+  column_spec(1, bold = TRUE)
+```
+
+The stratified logistic regression results reveal notable differences across departments in how satisfaction metrics relate to attrition.
+
+In the HR department (n = 63, 19% attrition), none of the predictors (JobSatisfaction, EnvironmentSatisfaction, or RelationshipSatisfaction) are statistically significant, likely due to the small sample size.
+
+In R&D (n = 961, 13.8% attrition), all three satisfaction measures are significant predictors: higher job, environment, and relationship satisfaction are associated with lower attrition.
+
+In Sales (n = 446, 20.6% attrition), job and environment satisfaction significantly reduce attrition, while relationship satisfaction is not significant.
+
+------------------------------------------------------------------------
+
+# Comprehensive Model Comparison
+
+## Multivariate Performance Analysis
+
+```{r multivariate-comparison}
+#| label: multivariate-comparison
+#| fig-cap: "Model Comparison: Weighted vs Unweighted Logistic Regression (Q2)"
+
+# ---- Ensure Q2 split exists (safety) ----
+if (!exists("train_idx2") || !exists("train_q2") || !exists("test_q2")) {
+  set.seed(515)
+  train_idx2 <- createDataPartition(hr_data$Attrition_Binary, p = 0.7, list = FALSE)
+  train_q2 <- hr_data[train_idx2, ]
+  test_q2 <- hr_data[-train_idx2, ]
+}
+
+if (!exists("weights_q2")) {
+  n_total2 <- nrow(train_q2)
+  n_pos2 <- sum(train_q2$Attrition_Binary)
+  n_neg2 <- n_total2 - n_pos2
+  w_pos2 <- n_total2 / (2 * n_pos2)
+  w_neg2 <- n_total2 / (2 * n_neg2)
+  weights_q2 <- ifelse(train_q2$Attrition_Binary == 1, w_pos2, w_neg2)
+}
+
+# ---- Fit UNWEIGHTED model ----
+unweighted_q2 <- glm(
+  Attrition_Binary ~ YearsSinceLastPromotion + YearsInCurrentRole +
+    MonthlyIncome + PercentSalaryHike + JobLevel,
+  data = train_q2,
+  family = binomial()
+)
+
+# ---- Fit WEIGHTED model if missing ----
+if (!exists("logit_q2")) {
+  logit_q2 <- suppressWarnings(glm(
+    Attrition_Binary ~ YearsSinceLastPromotion + YearsInCurrentRole +
+      MonthlyIncome + PercentSalaryHike + JobLevel,
+    data = train_q2,
+    family = binomial(),
+    weights = weights_q2
+  ))
+}
+
+# ---- Predictions ----
+pred_unweighted <- predict(unweighted_q2, newdata = test_q2, type = "response")
+pred_weighted <- predict(logit_q2, newdata = test_q2, type = "response")
+
+# ---- ROC objects ----
+roc_q2_unweighted <- roc(test_q2$Attrition_Binary, pred_unweighted, quiet = TRUE)
+roc_q2_weighted <- roc(test_q2$Attrition_Binary, pred_weighted, quiet = TRUE)
+
+auc_unweighted <- as.numeric(auc(roc_q2_unweighted))
+auc_weighted <- as.numeric(auc(roc_q2_weighted))
+
+# ---- Plot ROC curves ----
+plot(roc_q2_unweighted, col = "#2E86AB", lwd = 3,
+     main = "Q2 ROC Comparison: Unweighted vs Weighted Logistic Regression")
+plot(roc_q2_weighted, col = "#E94F37", lwd = 3, add = TRUE)
+abline(a = 0, b = 1, lty = 2, col = "gray50")
+legend("bottomright",
+       legend = c(paste0("Unweighted (AUC = ", round(auc_unweighted, 3), ")"),
+                  paste0("Weighted (AUC = ", round(auc_weighted, 3), ")")),
+       col = c("#2E86AB", "#E94F37"), lwd = 3, bty = "n")
+
+# ---- Summary table ----
+comparison_tbl <- data.frame(
+  Model = c("Unweighted Logistic Regression (Q2)", "Weighted Logistic Regression (Q2)"),
+  AUC = c(round(auc_unweighted, 3), round(auc_weighted, 3))
+)
+
+kable(comparison_tbl, caption = "Table: Q2 Model AUC Comparison") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"),
+                full_width = FALSE)
+```
+
+```{r build-model-comparison}
+#| label: build-model-comparison
+#| include: false
+
+# Build model_comparison used by comparison-insights
+auc_dt_val <- as.numeric(auc(roc_dt))
+auc_rf_val <- as.numeric(auc(roc_rf))
+auc_unw_val <- as.numeric(auc(roc_q2_unweighted))
+auc_wt_val <- as.numeric(auc(roc_q2_weighted))
+auc_las_val <- as.numeric(auc(roc_lasso))
+
+dept_rows <- dept_performance %>%
+  transmute(
+    Model = paste0("Stratified Logistic (Q3): ", Department),
+    Type = "Stratified Regression",
+    AUC = as.numeric(AUC)
+  )
+
+model_comparison <- bind_rows(
+  data.frame(Model = "Decision Tree (Q1)", Type = "Tree", AUC = auc_dt_val),
+  data.frame(Model = "Random Forest (Q1)", Type = "Ensemble", AUC = auc_rf_val),
+  data.frame(Model = "Unweighted Logistic Regression (Q2)", Type = "Regression", AUC = auc_unw_val),
+  data.frame(Model = "Weighted Logistic Regression (Q2)", Type = "Regression", AUC = auc_wt_val),
+  data.frame(Model = "LASSO Logistic Regression (Q2)", Type = "Regularized Regression", AUC = auc_las_val),
+  dept_rows
+)
+```
+
+## Model Comparison Insights
+
+```{r comparison-insights}
+#| label: comparison-insights
+
+cat("=============================================\n")
+cat("COMPREHENSIVE MODEL ANALYSIS\n")
+cat("=============================================\n\n")
+
+best_idx <- which.max(model_comparison$AUC)
+cat("Best Overall Model:", model_comparison$Model[best_idx], "\n")
+cat("Best AUC:", round(model_comparison$AUC[best_idx], 3), "\n\n")
+
+cat("Model Type Performance:\n")
+for (type in unique(model_comparison$Type)) {
+  type_models <- model_comparison %>% filter(Type == type)
+  cat(sprintf("  %s: Mean AUC = %.3f (Range: %.3f - %.3f)\n",
+              type,
+              mean(type_models$AUC),
+              min(type_models$AUC),
+              max(type_models$AUC)))
+}
+
+cat("\nKey Findings:\n")
+cat("1. Random Forest achieves strong predictive performance (AUC:", round(auc(roc_rf), 3), ")\n")
+cat("2. Ensemble methods outperform individual decision trees\n")
+cat("3. Weighted logistic regression helps address class imbalance\n")
+cat("4. LASSO identifies a parsimonious predictor set with competitive AUC\n")
+cat("5. Department-stratified models vary in performance due to sample size differences\n")
+```
+
+### Interpretation: Which Model to Use When?
+
+**For Production Deployment (Highest Accuracy):**\
+Use **Random Forest (AUC = `r round(auc(roc_rf), 3)`)** when prediction accuracy is paramount.
+
+**For Interpretability & Business Communication:**\
+Use **Weighted Logistic Regression (AUC = `r round(auc(roc_q2_weighted), 3)`)** when stakeholders need to understand *why* predictions are made.
+
+**For Feature Selection & Parsimony:**\
+Use **LASSO (AUC = `r round(auc(roc_lasso), 3)`)** when you need to identify the most critical predictors from many candidates.
+
+**For Department-Specific Interventions:**\
+Use **Stratified Models** when implementing targeted retention programs.
+
+------------------------------------------------------------------------
+
+# Discussion and Conclusions
+
+```{r summary-stats-final}
+#| label: summary-stats-final
+
+cat("=============================================\n")
+cat("SUMMARY STATISTICS\n")
+cat("=============================================\n")
+cat("Total Employees Analyzed:", nrow(hr_data), "\n")
+cat("Overall Attrition Rate:", round(mean(hr_data$Attrition_Binary) * 100, 1), "%\n")
+cat("OverTime Attrition Rate:", round(overtime_attrition, 1), "%\n")
+cat("Non-OverTime Attrition Rate:",
+    round(mean(hr_data$Attrition_Binary[hr_data$OverTime == "No"]) * 100, 1), "%\n")
+cat("\nBest Model Performance:\n")
+cat("- Random Forest AUC (Q1):", round(auc(roc_rf), 3), "\n")
+cat("- Weighted LR AUC (Q2 test):", round(auc(roc_q2_weighted), 3), "\n")
+cat("- Optimal Threshold (Q2 test):", round(coords_best$threshold, 3), "\n")
+cat("- LASSO Variables Selected:", nrow(lasso_df), "of 16\n")
+```
+
+## Recommendations for HR Practice
+
+1.  **Monitor Overtime:** Overtime is consistently among the strongest predictors of attrition.
+2.  **Promotion Cadence:** Stagnation signals (especially time since last promotion) meaningfully shift attrition risk.
+3.  **Department-Specific Actions:** Satisfaction signals and their strengths differ by department.
+
+## Limitations
+
+Due to employee and corporate confidentiality concerns, publicly available datasets containing detailed employee information are limited. While the dataset used in this project serves as a realistic approximation of HR records for a large organization and can inform analyses and decision-making strategies relevant to real-world company data, it is still a synthetic dataset.
+
+Class imbalance within the dataset also presented analytical challenges. Employee attrition, being a minority class, required careful threshold adjustments to ensure sensitivity and avoid biased predictive outcomes.
+
+The dataset did not include information regarding the reasons for employee departures. Distinguishing between voluntary resignations and terminations could have allowed for more targeted analyses.
+
+The dataset represents a cross-sectional snapshot, which allows for the identification of associations but not causal relationships.
+
+------------------------------------------------------------------------
+
+# References
+
+1.  IBM HR Analytics Employee Attrition Dataset. Available at: https://data.world/aaizemberg/hr-employee-attrition\
+2.  James, G., Witten, D., Hastie, T., & Tibshirani, R. (2021). *An Introduction to Statistical Learning (2nd ed.).* Springer.\
+3.  Hosmer, D. W., Lemeshow, S., & Sturdivant, R. X. (2013). *Applied Logistic Regression (3rd ed.).* Wiley.\
+4.  Breiman, L. (2001). Random Forests. *Machine Learning, 45*(1), 5–32.\
+5.  Tibshirani, R. (1996). Regression Shrinkage and Selection via the Lasso. *JRSS Series B, 58*(1), 267–288.\
+6.  R Core Team. (). *R: A Language and Environment for Statistical Computing.*
+
+------------------------------------------------------------------------
+
+# Appendix: Session Information
+
+```{r session-info}
+#| label: session-info
+
+sessionInfo()
+```
