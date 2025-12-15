@@ -24,7 +24,7 @@ execute:
 # =============================================================================
 # STAT 515 Final Project - IBM HR Employee Attrition Analysis
 # Team: Rutvij & Sean Greg
-# George Mason University | Fall 2024
+# George Mason University | Fall 2025
 # =============================================================================
 
 # Load required libraries

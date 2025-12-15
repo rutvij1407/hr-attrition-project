@@ -6,7 +6,7 @@ execute:
 
 ## Project Team
 
-This project was completed as the final project for **STAT 515: Applied Statistics & Visualization for Analytics** at George Mason University, Fall 2024.
+This project was completed as the final project for **STAT 515: Applied Statistics & Visualization for Analytics** at George Mason University, Fall 2025.
 
 ### Team Members
 
@@ -81,7 +81,7 @@ The IBM HR Analytics Employee Attrition dataset contains:
 
 -   **Course:** STAT 515 - Applied Statistics & Visualization for Analytics
 -   **Institution:** George Mason University
--   **Semester:** Fall 2024
+-   **Semester:** Fall 2025
 -   **Instructor:** Professor Dassanayake
 
 ------------------------------------------------------------------------
