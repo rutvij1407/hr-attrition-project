@@ -1,7 +1,7 @@
 ---
 title: "IBM HR Employee Attrition Analysis: Predictive Modeling for Workforce Retention"
 subtitle: "STAT 515 Final Project"
-author: "Rutvij & Sean Grieg"
+author: "Rutvij Reddy Vakati & Sean Grieg"
 date: "`r Sys.Date()`"
 format:
   html:
